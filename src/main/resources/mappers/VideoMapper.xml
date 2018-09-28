@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lin.dao.VideosMapper" >
-  <resultMap id="BaseResultMap" type="com.lin.model.Videos" >
+<mapper namespace="com.lin.dao.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.model.Video" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -31,7 +31,7 @@
     delete from videos
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.lin.model.Videos" >
+  <insert id="insert" parameterType="com.lin.model.Video" >
     insert into videos (id, user_id, audio_id, 
       video_desc, video_path, video_seconds, 
       video_width, video_height, cover_path, 
@@ -43,7 +43,7 @@
       #{likeCounts,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lin.model.Videos" >
+  <insert id="insertSelective" parameterType="com.lin.model.Video" >
     insert into videos
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -122,7 +122,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lin.model.Videos" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.model.Video" >
     update videos
     <set >
       <if test="userId != null" >
@@ -161,7 +161,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lin.model.Videos" >
+  <update id="updateByPrimaryKey" parameterType="com.lin.model.Video" >
     update videos
     set user_id = #{userId,jdbcType=VARCHAR},
       audio_id = #{audioId,jdbcType=VARCHAR},

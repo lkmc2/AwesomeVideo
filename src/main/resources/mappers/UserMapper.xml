@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lin.dao.UsersMapper" >
-  <resultMap id="BaseResultMap" type="com.lin.model.Users" >
+<mapper namespace="com.lin.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.model.User" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -19,23 +19,23 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from users
+    from user
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from users
+    delete from user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.lin.model.Users" >
-    insert into users (id, username, password, 
+  <insert id="insert" parameterType="com.lin.model.User" >
+    insert into user (id, username, password,
       face_image, nickname, fans_counts, 
       follow_counts, receive_like_counts)
     values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{faceImage,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{fansCounts,jdbcType=INTEGER}, 
       #{followCounts,jdbcType=INTEGER}, #{receiveLikeCounts,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.lin.model.Users" >
-    insert into users
+  <insert id="insertSelective" parameterType="com.lin.model.User" >
+    insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -89,8 +89,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lin.model.Users" >
-    update users
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.model.User" >
+    update user
     <set >
       <if test="username != null" >
         username = #{username,jdbcType=VARCHAR},
@@ -116,8 +116,8 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lin.model.Users" >
-    update users
+  <update id="updateByPrimaryKey" parameterType="com.lin.model.User" >
+    update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       face_image = #{faceImage,jdbcType=VARCHAR},
