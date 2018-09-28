@@ -1,16 +1,16 @@
 package com.lin.model;
 
-public class SearchRecords {
+public class SearchRecord {
     private String id;
 
     private String content;
 
-    public SearchRecords(String id, String content) {
+    public SearchRecord(String id, String content) {
         this.id = id;
         this.content = content;
     }
 
-    public SearchRecords() {
+    public SearchRecord() {
         super();
     }
 

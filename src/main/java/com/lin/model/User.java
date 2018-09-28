@@ -1,6 +1,6 @@
 package com.lin.model;
 
-public class Users {
+public class User {
     private String id;
 
     private String username;
@@ -17,7 +17,7 @@ public class Users {
 
     private Integer receiveLikeCounts;
 
-    public Users(String id, String username, String password, String faceImage, String nickname, Integer fansCounts, Integer followCounts, Integer receiveLikeCounts) {
+    public User(String id, String username, String password, String faceImage, String nickname, Integer fansCounts, Integer followCounts, Integer receiveLikeCounts) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -28,7 +28,7 @@ public class Users {
         this.receiveLikeCounts = receiveLikeCounts;
     }
 
-    public Users() {
+    public User() {
         super();
     }
 

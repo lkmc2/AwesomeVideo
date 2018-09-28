@@ -2,7 +2,7 @@ package com.lin.model;
 
 import java.util.Date;
 
-public class Comments {
+public class Comment {
     private String id;
 
     private String fatherCommentId;
@@ -17,7 +17,7 @@ public class Comments {
 
     private String comment;
 
-    public Comments(String id, String fatherCommentId, String toUserId, String videoId, String fromUserId, Date createTime, String comment) {
+    public Comment(String id, String fatherCommentId, String toUserId, String videoId, String fromUserId, Date createTime, String comment) {
         this.id = id;
         this.fatherCommentId = fatherCommentId;
         this.toUserId = toUserId;
@@ -27,7 +27,7 @@ public class Comments {
         this.comment = comment;
     }
 
-    public Comments() {
+    public Comment() {
         super();
     }
 

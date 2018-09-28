@@ -1,19 +1,19 @@
 package com.lin.model;
 
-public class UsersLikeVideos {
+public class UserLikeVideos {
     private String id;
 
     private String userId;
 
     private String videoId;
 
-    public UsersLikeVideos(String id, String userId, String videoId) {
+    public UserLikeVideos(String id, String userId, String videoId) {
         this.id = id;
         this.userId = userId;
         this.videoId = videoId;
     }
 
-    public UsersLikeVideos() {
+    public UserLikeVideos() {
         super();
     }
 

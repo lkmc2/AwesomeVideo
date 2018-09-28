@@ -1,19 +1,19 @@
 package com.lin.model;
 
-public class UsersFans {
+public class UserFans {
     private String id;
 
     private String userId;
 
     private String fanId;
 
-    public UsersFans(String id, String userId, String fanId) {
+    public UserFans(String id, String userId, String fanId) {
         this.id = id;
         this.userId = userId;
         this.fanId = fanId;
     }
 
-    public UsersFans() {
+    public UserFans() {
         super();
     }
 

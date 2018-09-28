@@ -2,7 +2,7 @@ package com.lin.model;
 
 import java.util.Date;
 
-public class UsersReport {
+public class UserReport {
     private String id;
 
     private String dealUserId;
@@ -17,7 +17,7 @@ public class UsersReport {
 
     private Date createDate;
 
-    public UsersReport(String id, String dealUserId, String dealVideoId, String title, String content, String userid, Date createDate) {
+    public UserReport(String id, String dealUserId, String dealVideoId, String title, String content, String userid, Date createDate) {
         this.id = id;
         this.dealUserId = dealUserId;
         this.dealVideoId = dealVideoId;
@@ -27,7 +27,7 @@ public class UsersReport {
         this.createDate = createDate;
     }
 
-    public UsersReport() {
+    public UserReport() {
         super();
     }
 

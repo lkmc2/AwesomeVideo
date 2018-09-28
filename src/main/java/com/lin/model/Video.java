@@ -2,7 +2,7 @@ package com.lin.model;
 
 import java.util.Date;
 
-public class Videos {
+public class Video {
     private String id;
 
     private String userId;
@@ -27,7 +27,7 @@ public class Videos {
 
     private Date createTime;
 
-    public Videos(String id, String userId, String audioId, String videoDesc, String videoPath, Float videoSeconds, Integer videoWidth, Integer videoHeight, String coverPath, Long likeCounts, Integer status, Date createTime) {
+    public Video(String id, String userId, String audioId, String videoDesc, String videoPath, Float videoSeconds, Integer videoWidth, Integer videoHeight, String coverPath, Long likeCounts, Integer status, Date createTime) {
         this.id = id;
         this.userId = userId;
         this.audioId = audioId;
@@ -42,7 +42,7 @@ public class Videos {
         this.createTime = createTime;
     }
 
-    public Videos() {
+    public Video() {
         super();
     }
 
