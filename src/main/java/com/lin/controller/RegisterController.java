@@ -1,8 +1,10 @@
 package com.lin.controller;
 
 import com.lin.model.User;
+import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RegisterController {
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/register")
     public JsonResult register(@RequestBody User user) {
 
@@ -25,9 +30,21 @@ public class RegisterController {
         }
 
         // 2.判断用户名是否存在
+        boolean isExist = userService.queryUsernameIsExist(user.getUsername());
+
         // 3.保存用户，注册信息
+        if (isExist) {
+            user.setUsername(user.getUsername());
+            user.setNickname(user.getNickname());
+            user.setFansCounts(0);
+            user.setReceiveLikeCounts(0);
+            user.setFollowCounts(0);
 
-
+            // 保存用户到数据库
+            userService.saveUser(user);
+        } else {
+            return JsonResult.errorMsg("用户名已存在，请更换一个再尝试");
+        }
         return JsonResult.ok();
     }
 

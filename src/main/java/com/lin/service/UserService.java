@@ -1,5 +1,7 @@
 package com.lin.service;
 
+import com.lin.model.User;
+
 /**
  * @author lkmc2
  * @date 2018/9/28

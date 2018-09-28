@@ -101,6 +101,13 @@
             <version>1.3.2</version>
         </dependency>
 
+        <!-- id增长器 -->
+        <dependency>
+            <groupId>com.github.bingoohuang</groupId>
+            <artifactId>idworker-client</artifactId>
+            <version>1.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
