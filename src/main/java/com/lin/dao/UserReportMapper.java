@@ -1,17 +1,7 @@
 package com.lin.dao;
 
 import com.lin.model.UserReport;
+import com.lin.utils.MyMapper;
 
-public interface UserReportMapper {
-    int deleteByPrimaryKey(String id);
-
-    int insert(UserReport record);
-
-    int insertSelective(UserReport record);
-
-    UserReport selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(UserReport record);
-
-    int updateByPrimaryKey(UserReport record);
+public interface UserReportMapper extends MyMapper<UserReport> {
 }

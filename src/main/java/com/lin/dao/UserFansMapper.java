@@ -1,17 +1,7 @@
 package com.lin.dao;
 
 import com.lin.model.UserFans;
+import com.lin.utils.MyMapper;
 
-public interface UserFansMapper {
-    int deleteByPrimaryKey(String id);
-
-    int insert(UserFans record);
-
-    int insertSelective(UserFans record);
-
-    UserFans selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(UserFans record);
-
-    int updateByPrimaryKey(UserFans record);
+public interface UserFansMapper extends MyMapper<UserFans> {
 }
