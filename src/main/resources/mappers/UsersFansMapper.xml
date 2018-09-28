@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lin.online_form.dao.UsersFansMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.online_form.model.UsersFans" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fan_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, fan_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from users_fans
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from users_fans
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lin.online_form.model.UsersFans" >
+    insert into users_fans (id, user_id, fan_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{fanId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lin.online_form.model.UsersFans" >
+    insert into users_fans
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="fanId != null" >
+        fan_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fanId != null" >
+        #{fanId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.online_form.model.UsersFans" >
+    update users_fans
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fanId != null" >
+        fan_id = #{fanId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lin.online_form.model.UsersFans" >
+    update users_fans
+    set user_id = #{userId,jdbcType=VARCHAR},
+      fan_id = #{fanId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

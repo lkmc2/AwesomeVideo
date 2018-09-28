@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lin.online_form.dao.CommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.online_form.model.Comments" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="father_comment_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="to_user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="video_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="from_user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lin.online_form.model.Comments" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="father_comment_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="to_user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="video_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="from_user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="comment" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, father_comment_id, to_user_id, video_id, from_user_id, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    comment
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comments
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from comments
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lin.online_form.model.Comments" >
+    insert into comments (id, father_comment_id, to_user_id, 
+      video_id, from_user_id, create_time, 
+      comment)
+    values (#{id,jdbcType=VARCHAR}, #{fatherCommentId,jdbcType=VARCHAR}, #{toUserId,jdbcType=VARCHAR}, 
+      #{videoId,jdbcType=VARCHAR}, #{fromUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{comment,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lin.online_form.model.Comments" >
+    insert into comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fatherCommentId != null" >
+        father_comment_id,
+      </if>
+      <if test="toUserId != null" >
+        to_user_id,
+      </if>
+      <if test="videoId != null" >
+        video_id,
+      </if>
+      <if test="fromUserId != null" >
+        from_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherCommentId != null" >
+        #{fatherCommentId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="videoId != null" >
+        #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserId != null" >
+        #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.online_form.model.Comments" >
+    update comments
+    <set >
+      <if test="fatherCommentId != null" >
+        father_comment_id = #{fatherCommentId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null" >
+        to_user_id = #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="videoId != null" >
+        video_id = #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserId != null" >
+        from_user_id = #{fromUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lin.online_form.model.Comments" >
+    update comments
+    set father_comment_id = #{fatherCommentId,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=VARCHAR},
+      video_id = #{videoId,jdbcType=VARCHAR},
+      from_user_id = #{fromUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      comment = #{comment,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lin.online_form.model.Comments" >
+    update comments
+    set father_comment_id = #{fatherCommentId,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=VARCHAR},
+      video_id = #{videoId,jdbcType=VARCHAR},
+      from_user_id = #{fromUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

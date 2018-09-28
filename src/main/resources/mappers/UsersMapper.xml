@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lin.online_form.dao.UsersMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.online_form.model.Users" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="face_image" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="nickname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fans_counts" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="follow_counts" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="receive_like_counts" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, face_image, nickname, fans_counts, follow_counts, receive_like_counts
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from users
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lin.online_form.model.Users" >
+    insert into users (id, username, password, 
+      face_image, nickname, fans_counts, 
+      follow_counts, receive_like_counts)
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{faceImage,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{fansCounts,jdbcType=INTEGER}, 
+      #{followCounts,jdbcType=INTEGER}, #{receiveLikeCounts,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lin.online_form.model.Users" >
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="faceImage != null" >
+        face_image,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="fansCounts != null" >
+        fans_counts,
+      </if>
+      <if test="followCounts != null" >
+        follow_counts,
+      </if>
+      <if test="receiveLikeCounts != null" >
+        receive_like_counts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImage != null" >
+        #{faceImage,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="fansCounts != null" >
+        #{fansCounts,jdbcType=INTEGER},
+      </if>
+      <if test="followCounts != null" >
+        #{followCounts,jdbcType=INTEGER},
+      </if>
+      <if test="receiveLikeCounts != null" >
+        #{receiveLikeCounts,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.online_form.model.Users" >
+    update users
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="faceImage != null" >
+        face_image = #{faceImage,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="fansCounts != null" >
+        fans_counts = #{fansCounts,jdbcType=INTEGER},
+      </if>
+      <if test="followCounts != null" >
+        follow_counts = #{followCounts,jdbcType=INTEGER},
+      </if>
+      <if test="receiveLikeCounts != null" >
+        receive_like_counts = #{receiveLikeCounts,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lin.online_form.model.Users" >
+    update users
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      face_image = #{faceImage,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      fans_counts = #{fansCounts,jdbcType=INTEGER},
+      follow_counts = #{followCounts,jdbcType=INTEGER},
+      receive_like_counts = #{receiveLikeCounts,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lin.online_form.dao.UsersReportMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.online_form.model.UsersReport" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="deal_user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="deal_video_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="userid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, deal_user_id, deal_video_id, title, content, userid, create_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from users_report
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from users_report
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lin.online_form.model.UsersReport" >
+    insert into users_report (id, deal_user_id, deal_video_id, 
+      title, content, userid, 
+      create_date)
+    values (#{id,jdbcType=VARCHAR}, #{dealUserId,jdbcType=VARCHAR}, #{dealVideoId,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lin.online_form.model.UsersReport" >
+    insert into users_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dealUserId != null" >
+        deal_user_id,
+      </if>
+      <if test="dealVideoId != null" >
+        deal_video_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dealUserId != null" >
+        #{dealUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealVideoId != null" >
+        #{dealVideoId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.online_form.model.UsersReport" >
+    update users_report
+    <set >
+      <if test="dealUserId != null" >
+        deal_user_id = #{dealUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="dealVideoId != null" >
+        deal_video_id = #{dealVideoId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lin.online_form.model.UsersReport" >
+    update users_report
+    set deal_user_id = #{dealUserId,jdbcType=VARCHAR},
+      deal_video_id = #{dealVideoId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
