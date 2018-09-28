@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lin.online_form.dao.UsersLikeVideosMapper" >
-  <resultMap id="BaseResultMap" type="com.lin.online_form.model.UsersLikeVideos" >
+<mapper namespace="com.lin.dao.UsersLikeVideosMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.model.UsersLikeVideos" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -21,13 +21,13 @@
     delete from users_like_videos
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.lin.online_form.model.UsersLikeVideos" >
+  <insert id="insert" parameterType="com.lin.model.UsersLikeVideos" >
     insert into users_like_videos (id, user_id, video_id
       )
     values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{videoId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lin.online_form.model.UsersLikeVideos" >
+  <insert id="insertSelective" parameterType="com.lin.model.UsersLikeVideos" >
     insert into users_like_videos
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -52,7 +52,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lin.online_form.model.UsersLikeVideos" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.model.UsersLikeVideos" >
     update users_like_videos
     <set >
       <if test="userId != null" >
@@ -64,7 +64,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lin.online_form.model.UsersLikeVideos" >
+  <update id="updateByPrimaryKey" parameterType="com.lin.model.UsersLikeVideos" >
     update users_like_videos
     set user_id = #{userId,jdbcType=VARCHAR},
       video_id = #{videoId,jdbcType=VARCHAR}

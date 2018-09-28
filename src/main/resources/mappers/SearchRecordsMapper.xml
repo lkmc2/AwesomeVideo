@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lin.online_form.dao.SearchRecordsMapper" >
-  <resultMap id="BaseResultMap" type="com.lin.online_form.model.SearchRecords" >
+<mapper namespace="com.lin.dao.SearchRecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.model.SearchRecords" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -20,11 +20,11 @@
     delete from search_records
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.lin.online_form.model.SearchRecords" >
+  <insert id="insert" parameterType="com.lin.model.SearchRecords" >
     insert into search_records (id, content)
     values (#{id,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lin.online_form.model.SearchRecords" >
+  <insert id="insertSelective" parameterType="com.lin.model.SearchRecords" >
     insert into search_records
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -43,7 +43,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lin.online_form.model.SearchRecords" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.model.SearchRecords" >
     update search_records
     <set >
       <if test="content != null" >
@@ -52,7 +52,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lin.online_form.model.SearchRecords" >
+  <update id="updateByPrimaryKey" parameterType="com.lin.model.SearchRecords" >
     update search_records
     set content = #{content,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}

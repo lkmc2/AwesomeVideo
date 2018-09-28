@@ -1,6 +1,6 @@
-package com.lin.online_form.dao;
+package com.lin.dao;
 
-import com.lin.online_form.model.UsersLikeVideos;
+import com.lin.model.UsersLikeVideos;
 
 public interface UsersLikeVideosMapper {
     int deleteByPrimaryKey(String id);

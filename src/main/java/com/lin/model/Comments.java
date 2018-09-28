@@ -1,4 +1,4 @@
-package com.lin.online_form.model;
+package com.lin.model;
 
 import java.util.Date;
 

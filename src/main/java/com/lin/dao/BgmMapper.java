@@ -1,6 +1,6 @@
-package com.lin.online_form.dao;
+package com.lin.dao;
 
-import com.lin.online_form.model.Bgm;
+import com.lin.model.Bgm;
 
 public interface BgmMapper {
     int deleteByPrimaryKey(String id);

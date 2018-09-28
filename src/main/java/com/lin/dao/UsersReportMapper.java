@@ -1,6 +1,6 @@
-package com.lin.online_form.dao;
+package com.lin.dao;
 
-import com.lin.online_form.model.UsersReport;
+import com.lin.model.UsersReport;
 
 public interface UsersReportMapper {
     int deleteByPrimaryKey(String id);

@@ -1,6 +1,6 @@
-package com.lin.online_form.dao;
+package com.lin.dao;
 
-import com.lin.online_form.model.Comments;
+import com.lin.model.Comments;
 
 public interface CommentsMapper {
     int deleteByPrimaryKey(String id);

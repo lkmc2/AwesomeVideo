@@ -1,4 +1,4 @@
-package com.lin.online_form.model;
+package com.lin.model;
 
 public class Bgm {
     private String id;

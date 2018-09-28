@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lin.online_form.dao.UsersFansMapper" >
-  <resultMap id="BaseResultMap" type="com.lin.online_form.model.UsersFans" >
+<mapper namespace="com.lin.dao.UsersFansMapper" >
+  <resultMap id="BaseResultMap" type="com.lin.model.UsersFans" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -21,13 +21,13 @@
     delete from users_fans
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.lin.online_form.model.UsersFans" >
+  <insert id="insert" parameterType="com.lin.model.UsersFans" >
     insert into users_fans (id, user_id, fan_id
       )
     values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{fanId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lin.online_form.model.UsersFans" >
+  <insert id="insertSelective" parameterType="com.lin.model.UsersFans" >
     insert into users_fans
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -52,7 +52,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lin.online_form.model.UsersFans" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lin.model.UsersFans" >
     update users_fans
     <set >
       <if test="userId != null" >
@@ -64,7 +64,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lin.online_form.model.UsersFans" >
+  <update id="updateByPrimaryKey" parameterType="com.lin.model.UsersFans" >
     update users_fans
     set user_id = #{userId,jdbcType=VARCHAR},
       fan_id = #{fanId,jdbcType=VARCHAR}

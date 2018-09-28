@@ -1,6 +1,6 @@
-package com.lin.online_form.dao;
+package com.lin.dao;
 
-import com.lin.online_form.model.SearchRecords;
+import com.lin.model.SearchRecords;
 
 public interface SearchRecordsMapper {
     int deleteByPrimaryKey(String id);
