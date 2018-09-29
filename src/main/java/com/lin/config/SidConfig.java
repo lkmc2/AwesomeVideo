@@ -1,4 +1,4 @@
-package com.lin.utils;
+package com.lin.config;
 
 import org.n3r.idworker.Sid;
 import org.springframework.context.annotation.Bean;

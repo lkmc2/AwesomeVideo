@@ -35,6 +35,7 @@ public class User {
     /**
      * 昵称
      */
+    @ApiModelProperty(value = "昵称", name = "nickname", example = "jack123", required = true)
     private String nickname;
 
     /**

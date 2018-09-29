@@ -1,4 +1,4 @@
-package com.lin;
+package com.lin.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +21,7 @@ import java.util.List;
  * @author lkmc2
  * @date 2018/9/29
  * @description Swagger2配置
+ * 启动页面：http://localhost:8080/swagger-ui.html
  */
 @Configuration
 @EnableSwagger2
