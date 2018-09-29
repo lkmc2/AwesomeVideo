@@ -16,8 +16,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {AwesomeVideoApplication.class})
-@WebAppConfiguration
+@SpringBootTest
 public class BaseTest {
 
 }

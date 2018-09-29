@@ -1,6 +1,7 @@
 package com.lin.service.impl;
 
 import com.lin.BaseTest;
+import com.lin.model.User;
 import com.lin.service.UserService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class UserServiceImplTest extends BaseTest {
 
     @Test
     public void saveUser() {
+        User user = new User();
+        user.setUsername("Andy");
+        user.setPassword("123456");
+        user.setNickname("Luck");
+
+        assertTrue(userService.saveUser(user));
     }
 
 }

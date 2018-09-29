@@ -19,7 +19,8 @@ public interface UserService {
     /**
      * 保存用户到数据库
      * @param user 用户
+     * @return 是否保存用户成功
      */
-    void saveUser(User user);
+    boolean saveUser(User user);
 
 }
