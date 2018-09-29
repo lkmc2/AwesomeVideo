@@ -49,7 +49,10 @@ public class RegisterController {
         } else {
             return JsonResult.errorMsg("用户名已存在，请更换一个再尝试");
         }
-        return JsonResult.ok();
+
+        // 清空密码
+        user.setPassword("");
+        return JsonResult.ok(user);
     }
 
 }
