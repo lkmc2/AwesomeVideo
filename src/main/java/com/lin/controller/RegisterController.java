@@ -3,6 +3,8 @@ package com.lin.controller;
 import com.lin.model.User;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,12 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/9/28
  * @description 注册控制器
  */
+@Api(value = "用户注册的接口", tags = {"注册的Controller"})
 @RestController
 public class RegisterController {
 
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "用户注册", notes = "用户注册的接口")
     @PostMapping("/register")
     public JsonResult register(@RequestBody User user) {
 
