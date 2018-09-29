@@ -1,9 +1,7 @@
 package com.lin.model;
 
-import javax.persistence.*;
 
 public class Bgm {
-    @Id
     private String id;
 
     private String author;

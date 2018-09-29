@@ -1,13 +1,13 @@
 package com.lin;
 
 import com.lin.utils.MyMapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import tk.mybatis.spring.annotation.MapperScan;
 
 
 @SpringBootApplication
-@MapperScan(basePackages = {"com.lin.dao"}, markerInterface = MyMapper.class)
+@MapperScan("com.lin.dao")
 public class AwesomeVideoApplication {
 
     public static void main(String[] args) {

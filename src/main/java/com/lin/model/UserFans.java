@@ -1,22 +1,17 @@
 package com.lin.model;
 
-import javax.persistence.*;
 
-@Table(name = "users_fans")
 public class UserFans {
-    @Id
     private String id;
 
     /**
      * 用户
      */
-    @Column(name = "user_id")
     private String userId;
 
     /**
      * 粉丝
      */
-    @Column(name = "fan_id")
     private String fanId;
 
     /**

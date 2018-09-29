@@ -45,7 +45,8 @@ public class RegisterController {
             user.setFollowCounts(0);
 
             // 保存用户到数据库
-            userService.saveUser(user);
+            System.out.println("haha");
+//            userService.saveUser(user);
         } else {
             return JsonResult.errorMsg("用户名已存在，请更换一个再尝试");
         }

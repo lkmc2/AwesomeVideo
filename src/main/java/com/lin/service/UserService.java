@@ -16,10 +16,10 @@ public interface UserService {
      */
     boolean queryUsernameIsExist(String username);
 
-    /**
-     * 保存用户到数据库
-     * @param user 用户
-     */
-    void saveUser(User user);
+//    /**
+//     * 保存用户到数据库
+//     * @param user 用户
+//     */
+//    void saveUser(User user);
 
 }

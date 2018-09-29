@@ -1,10 +1,7 @@
 package com.lin.model;
 
-import javax.persistence.*;
 
-@Table(name = "search_records")
 public class SearchRecords {
-    @Id
     private String id;
 
     /**
