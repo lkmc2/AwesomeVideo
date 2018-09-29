@@ -1,24 +1,32 @@
 package com.lin.model;
 
 import java.util.Date;
+import javax.persistence.*;
 
+@Table(name = "comments")
 public class Comment {
+    @Id
     private String id;
 
+    @Column(name = "father_comment_id")
     private String fatherCommentId;
 
+    @Column(name = "to_user_id")
     private String toUserId;
 
     /**
      * 视频id
      */
+    @Column(name = "video_id")
     private String videoId;
 
     /**
      * 留言者，评论的用户id
      */
+    @Column(name = "from_user_id")
     private String fromUserId;
 
+    @Column(name = "create_time")
     private Date createTime;
 
     /**

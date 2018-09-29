@@ -14,7 +14,5 @@
     <result column="follow_counts" property="followCounts" jdbcType="INTEGER" />
     <result column="receive_like_counts" property="receiveLikeCounts" jdbcType="INTEGER" />
   </resultMap>
-    <select id="selectOne" resultType="com.lin.model.User">
-      select * from users limit 1
-    </select>
+
 </mapper>

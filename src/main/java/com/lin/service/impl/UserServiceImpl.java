@@ -32,25 +32,22 @@ public class UserServiceImpl implements UserService {
         user.setUsername(username);
 
         // 根据用户名选出用户
-        User result = userMapper.selectOne();
+        User result = userMapper.selectOne(user);
 
-        if (result == null) {
-            return false;
-        }
-        return true;
+        return result != null;
     }
 
-//    // 运行当前事务，如果当前没有事务，就新建一个事务
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    @Override
-//    public void saveUser(User user) {
-//        // 创建下一个id
-//        String userId = sid.nextShort();
-//        user.setId(userId);
-//
-//        // 保存用户到数据库
-//        userMapper.insert(user);
-//    }
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void saveUser(User user) {
+        // 创建下一个id
+        String userId = sid.nextShort();
+        user.setId(userId);
+
+        // 保存用户到数据库
+        userMapper.insert(user);
+    }
 
 
 }

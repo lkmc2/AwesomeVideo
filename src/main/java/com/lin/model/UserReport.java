@@ -1,15 +1,20 @@
 package com.lin.model;
 
 import java.util.Date;
+import javax.persistence.*;
 
+@Table(name = "users_report")
 public class UserReport {
+    @Id
     private String id;
 
     /**
      * 被举报用户id
      */
+    @Column(name = "deal_user_id")
     private String dealUserId;
 
+    @Column(name = "deal_video_id")
     private String dealVideoId;
 
     /**
@@ -30,6 +35,7 @@ public class UserReport {
     /**
      * 举报时间
      */
+    @Column(name = "create_date")
     private Date createDate;
 
     /**

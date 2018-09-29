@@ -37,7 +37,7 @@ public class RegisterController {
         boolean isExist = userService.queryUsernameIsExist(user.getUsername());
 
         // 3.保存用户，注册信息
-        if (isExist) {
+        if (!isExist) {
             user.setUsername(user.getUsername());
             user.setNickname(user.getNickname());
             user.setFansCounts(0);
@@ -45,8 +45,7 @@ public class RegisterController {
             user.setFollowCounts(0);
 
             // 保存用户到数据库
-            System.out.println("haha");
-//            userService.saveUser(user);
+            userService.saveUser(user);
         } else {
             return JsonResult.errorMsg("用户名已存在，请更换一个再尝试");
         }
