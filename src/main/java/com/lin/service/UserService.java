@@ -23,4 +23,12 @@ public interface UserService {
      */
     boolean saveUser(User user);
 
+    /**
+     * 根据用户名和密码查询用户
+     * @param username 用户名
+     * @param password 密码
+     * @return 查询到的用户
+     */
+    User queryUserForLogin(String username, String password);
+
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * @author lkmc2
@@ -50,6 +51,23 @@ public class UserServiceImpl implements UserService {
 
         return effectCount == 1;
     }
+
+    @Override
+    public User queryUserForLogin(String username, String password) {
+        // 创建用户查询实例
+        Example userExample = new Example(User.class);
+
+        // 查询条件
+        Example.Criteria criteria = userExample.createCriteria();
+        // 用户名和密码需要相等
+        criteria.andEqualTo("username", username);
+        criteria.andEqualTo("password", password);
+
+        // 根据查询实例进行查询用户
+        return userMapper.selectOneByExample(userExample);
+    }
+
+
 
 
 }
