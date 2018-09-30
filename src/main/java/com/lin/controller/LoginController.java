@@ -48,7 +48,7 @@ public class LoginController extends BaseController {
         }
 
         // 清空密码，返回用户信息
-        user.setPassword("");
+        resultUser.setPassword("");
 
         // 设置用户Token到Redis中
         UserVo userVo = setUserRedisSessionToken(resultUser);
