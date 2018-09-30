@@ -17,6 +17,6 @@ public class BaseController {
 
     // Redis操作工具
     @Autowired
-    public RedisOperator redisOperator;
+    public RedisOperator redis;
 
 }

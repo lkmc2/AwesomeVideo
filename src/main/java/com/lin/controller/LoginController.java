@@ -67,7 +67,7 @@ public class LoginController extends BaseController {
         String uniqueToken = UUID.randomUUID().toString();
 
         // 将用户信息存入Redis（有效期30分钟）
-        redisOperator.set(USER_REDIS_SESSION + ":" + user.getId(), uniqueToken, 1000 * 60 * 30);
+        redis.set(USER_REDIS_SESSION + ":" + user.getId(), uniqueToken, 1000 * 60 * 30);
 
         // 用户视图对象
         UserVo userVo = new UserVo();
