@@ -28,11 +28,20 @@ public class UserServiceImplTest extends BaseTest {
     @Test
     public void saveUser() {
         User user = new User();
-        user.setUsername("Andy");
+        user.setUsername("Ticket");
         user.setPassword("123456");
         user.setNickname("Luck");
 
         assertTrue(userService.saveUser(user));
+    }
+
+    @Test
+    public void queryUserForLogin() {
+        User user = new User();
+        user.setUsername("Ticket");
+        user.setPassword("123456");
+
+        assertNotNull(userService.queryUserForLogin(user.getUsername(), user.getPassword()));
     }
 
 }

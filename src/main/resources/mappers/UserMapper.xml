@@ -14,8 +14,5 @@
     <result column="follow_counts" property="followCounts" jdbcType="INTEGER" />
     <result column="receive_like_counts" property="receiveLikeCounts" jdbcType="INTEGER" />
   </resultMap>
-    <select id="login" resultType="java.lang.Boolean">
-      select count(1) from users where username = #{username} and password = #{password}
-    </select>
 
 </mapper>
