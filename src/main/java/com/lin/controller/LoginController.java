@@ -4,13 +4,17 @@ import com.lin.model.User;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
 import com.lin.utils.MD5Utils;
+import com.lin.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 /**
  * @author lkmc2
@@ -45,7 +49,36 @@ public class LoginController extends BaseController {
 
         // 清空密码，返回用户信息
         user.setPassword("");
-        return JsonResult.ok(resultUser);
+
+        // 设置用户Token到Redis中
+        UserVo userVo = setUserRedisSessionToken(resultUser);
+
+        // 返回用户视图对象
+        return JsonResult.ok(userVo);
+    }
+
+    /**
+     * 设置用户Token到Redis中
+     * @param user 用户
+     * @return 用户视图对象
+     */
+    private UserVo setUserRedisSessionToken(User user) {
+        // 生成Token
+        String uniqueToken = UUID.randomUUID().toString();
+
+        // 将用户信息存入Redis（有效期30分钟）
+        redisOperator.set(USER_REDIS_SESSION + ":" + user.getId(), uniqueToken, 1000 * 60 * 30);
+
+        // 用户视图对象
+        UserVo userVo = new UserVo();
+
+        // 将用户中的属性拷贝到Vo对象
+        BeanUtils.copyProperties(user, userVo);
+
+        // 设置Token到Vo对象
+        userVo.setUserToken(uniqueToken);
+
+        return userVo;
     }
 
 }

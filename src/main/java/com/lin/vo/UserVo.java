@@ -1,10 +1,8 @@
-package com.lin.model.vo;
+package com.lin.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @ApiModel(value = "用户视图对象", description = "这是用户视图对象")

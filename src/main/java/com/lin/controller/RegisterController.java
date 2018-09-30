@@ -1,7 +1,7 @@
 package com.lin.controller;
 
 import com.lin.model.User;
-import com.lin.model.vo.UserVo;
+import com.lin.vo.UserVo;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
 import com.lin.utils.MD5Utils;
@@ -60,6 +60,19 @@ public class RegisterController extends BaseController {
         // 清空密码
         user.setPassword("");
 
+        // 设置用户Token到Redis中
+        UserVo userVo = setUserRedisSessionToken(user);
+
+        // 返回Vo对象
+        return JsonResult.ok(userVo);
+    }
+
+    /**
+     * 设置用户Token到Redis中
+     * @param user 用户
+     * @return 用户视图对象
+     */
+    private UserVo setUserRedisSessionToken(User user) {
         // 生成Token
         String uniqueToken = UUID.randomUUID().toString();
 
@@ -75,8 +88,7 @@ public class RegisterController extends BaseController {
         // 设置Token到Vo对象
         userVo.setUserToken(uniqueToken);
 
-        // 返回Vo对象
-        return JsonResult.ok(userVo);
+        return userVo;
     }
 
 }
