@@ -1,17 +1,24 @@
-package com.lin.model;
+package com.lin.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@ApiModel(value = "用户对象", description = "这是用户对象")
+@ApiModel(value = "用户视图对象", description = "这是用户视图对象")
 @Table(name = "users")
-public class User {
+public class UserVo {
 
     @ApiModelProperty(hidden = true)
-    @Id
     private String id;
+
+    /**
+     * 用户认证凭据
+     */
+    @ApiModelProperty(hidden = true)
+    private String userToken;
 
     /**
      * 用户名
@@ -29,7 +36,6 @@ public class User {
      * 我的头像，如果没有默认给一张
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "face_image")
     private String faceImage;
 
     /**
@@ -42,21 +48,18 @@ public class User {
      * 我的粉丝数量
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "fans_counts")
     private Integer fansCounts;
 
     /**
      * 我关注的人总数
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "follow_counts")
     private Integer followCounts;
 
     /**
      * 我接受到的赞美/收藏 的数量
      */
     @ApiModelProperty(hidden = true)
-    @Column(name = "receive_like_counts")
     private Integer receiveLikeCounts;
 
     /**
@@ -71,6 +74,21 @@ public class User {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * 获取用户认证凭据
+     * @return 用户认证凭据
+     */
+    public String getUserToken() {
+        return userToken;
+    }
+
+    /**
+     * 设置用户认证凭据
+     */
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     /**
