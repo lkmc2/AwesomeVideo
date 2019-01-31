@@ -6,6 +6,7 @@ import com.lin.utils.JsonResult;
 import com.lin.utils.MD5Utils;
 import com.lin.vo.UserVo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -55,6 +56,14 @@ public class LoginController extends BaseController {
 
         // 返回用户视图对象
         return JsonResult.ok(userVo);
+    }
+
+    @ApiOperation(value = "用户注销", notes = "用户注销的接口")
+    @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query")
+    @PostMapping("/logout")
+    public JsonResult logout(String userId) {
+        redis.del(USER_REDIS_SESSION + ":" + userId);
+        return JsonResult.ok();
     }
 
     /**
