@@ -77,4 +77,22 @@ public class RegisterLoginControllerTest extends BaseControllerTest {
         System.out.println(responseString);
     }
 
+    @Test
+    public void logout() throws Exception {
+        // 此id从login的返回结果中获取
+        String userId = "180930K3D6W4B44H";
+
+        String responseString = mockMvc.perform
+                (
+                        MockMvcRequestBuilders
+                                .post("http://127.0.0.1/logout?userId=" + userId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn().getResponse().getContentAsString();
+
+        System.out.println(responseString);
+    }
+
 }
