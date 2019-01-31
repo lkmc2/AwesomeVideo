@@ -20,14 +20,53 @@ import java.util.UUID;
 /**
  * @author lkmc2
  * @date 2018/9/28
- * @description 登陆控制器
+ * @description 注册登陆控制器
  */
-@Api(value = "用户登陆的接口", tags = {"登陆的Controller"})
+@Api(value = "用户注册登陆的接口", tags = {"注册登陆的Controller"})
 @RestController
-public class LoginController extends BaseController {
+public class RegisterLoginController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    @ApiOperation(value = "用户注册", notes = "用户注册的接口")
+    @PostMapping("/register")
+    public JsonResult register(@RequestBody User user) throws Exception {
+
+        // 1.判断用户名和密码必须不能为空
+        if (StringUtils.isBlank(user.getUsername())
+                || StringUtils.isBlank(user.getPassword())) {
+            return JsonResult.errorMsg("用户名和密码不能为空");
+        }
+
+        // 2.判断用户名是否存在
+        boolean isExist = userService.queryUsernameIsExist(user.getUsername());
+
+        // 3.保存用户，注册信息
+        if (!isExist) {
+            user.setUsername(user.getUsername());
+            user.setNickname(user.getNickname());
+            // 密码进行MD5加密
+            user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
+            user.setFansCounts(0);
+            user.setReceiveLikeCounts(0);
+            user.setFollowCounts(0);
+
+            // 保存用户到数据库
+            userService.saveUser(user);
+        } else {
+            return JsonResult.errorMsg("用户名已存在，请更换一个再尝试");
+        }
+
+        // 清空密码
+        user.setPassword("");
+
+        // 设置用户Token到Redis中
+        UserVo userVo = setUserRedisSessionToken(user);
+
+        // 返回Vo对象
+        return JsonResult.ok(userVo);
+    }
 
     @ApiOperation(value = "用户登陆", notes = "用户登陆的接口")
     @PostMapping("/login")
