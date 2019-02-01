@@ -86,7 +86,7 @@ public class UserController extends BaseController {
         // 更新用户信息
         userService.updateUserInfo(user);
 
-        return JsonResult.ok();
+        return JsonResult.ok(uploadPathDB);
     }
 
 }
