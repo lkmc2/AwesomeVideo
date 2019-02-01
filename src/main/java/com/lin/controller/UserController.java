@@ -12,7 +12,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,6 +61,7 @@ public class UserController extends BaseController {
                     File outFile = new File(finalFacePath);
                     if (outFile.getParentFile() != null && !outFile.getParentFile().isDirectory()) {
                         // 创建父文件夹
+                        //noinspection ResultOfMethodCallIgnored
                         outFile.getParentFile().mkdirs();
                     }
 
