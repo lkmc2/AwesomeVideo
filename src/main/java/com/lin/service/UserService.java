@@ -31,4 +31,9 @@ public interface UserService {
      */
     User queryUserForLogin(String username, String password);
 
+    /**
+     * 修改用户信息
+     * @param user 用户
+     */
+    void updateUserInfo(User user);
 }

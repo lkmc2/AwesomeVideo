@@ -33,27 +33,27 @@ public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
         // 为Swagger添加header参数可供输入
-        ParameterBuilder userTokenHeader = new ParameterBuilder();
-        ParameterBuilder userIdHeader = new ParameterBuilder();
+//        ParameterBuilder userTokenHeader = new ParameterBuilder();
+//        ParameterBuilder userIdHeader = new ParameterBuilder();
 
         List<Parameter> paramList = new ArrayList<>();
 
-        userTokenHeader
-                .name("headerUserToken")
-                .description("userToken")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .required(false);
-
-        userIdHeader
-                .name("headerUserId")
-                .description("userId")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .required(false);
-
-        paramList.add(userTokenHeader.build());
-        paramList.add(userIdHeader.build());
+//        userTokenHeader
+//                .name("headerUserToken")
+//                .description("userToken")
+//                .modelRef(new ModelRef("string"))
+//                .parameterType("header")
+//                .required(false);
+//
+//        userIdHeader
+//                .name("headerUserId")
+//                .description("userId")
+//                .modelRef(new ModelRef("string"))
+//                .parameterType("header")
+//                .required(false);
+//
+//        paramList.add(userTokenHeader.build());
+//        paramList.add(userIdHeader.build());
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())

@@ -67,7 +67,19 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOneByExample(userExample);
     }
 
+    @Override
+    public void updateUserInfo(User user) {
+        // 创建用户查询实例
+        Example userExample = new Example(User.class);
 
+        // 查询条件
+        Example.Criteria criteria = userExample.createCriteria();
+        // 用户id需相等
+        criteria.andEqualTo("id", user.getId());
+
+        // 根据查询条件选择性更新用户信息
+        userMapper.updateByExampleSelective(user, userExample);
+    }
 
 
 }

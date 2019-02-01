@@ -3,22 +3,23 @@ package com.lin.controller;
 import com.lin.model.User;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
-import com.lin.utils.MD5Utils;
-import com.lin.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.util.UUID;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author lkmc2
@@ -34,46 +35,58 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @ApiOperation(value = "用户上传头像", notes = "用户上传头像的接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "file", required = true, dataType = "file", paramType = "upload")
-    })
-    @PostMapping("/uploadFace")
-    public JsonResult uploadFace(String userId, @RequestParam("file") MultipartFile[] files) throws Exception {
-        // 上传文件数组不为空
-        if (ArrayUtils.isNotEmpty(files)) {
-            FileOutputStream out = null;
-            InputStream in = null;
+    @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query")
+    @PostMapping(value = "/uploadFace", headers="content-type=multipart/form-data")
+    public JsonResult uploadFace(String userId, @ApiParam(value = "上传的图片", required = true) MultipartFile file) {
+        if (StringUtils.isBlank(userId)) {
+            return JsonResult.errorMsg("用户id不能为空");
+        }
 
-            String fileName = files[0].getOriginalFilename();
-            if (StringUtils.isNoneBlank(fileName)) {
-                // 文件上传的最终保存路径
-                String finalFacePath = String.format("F:/AwesomeVideoUpload/%s/face/%s", userId, fileName);
-                // 设置数据库保存的路径
-                String uploadPathDB = String.format("/%s/face/%s", userId, fileName);
+        // 数据库保存头像的路径
+        String uploadPathDB = null;
 
-                File outFile = new File(finalFacePath);
-                if (outFile.getParentFile() != null && !outFile.getParentFile().isDirectory()) {
-                    // 创建父文件夹
-                    boolean mkdirsSuccess = outFile.getParentFile().mkdirs();
-                    if (!mkdirsSuccess) {
-                        return JsonResult.errorException("上传文件失败！");
+        FileOutputStream out = null;
+        InputStream in = null;
+        try {
+            // 上传文件数组不为空
+            if (file != null) {
+                String fileName = file.getOriginalFilename();
+                if (StringUtils.isNoneBlank(fileName)) {
+                    // 文件上传的最终保存路径
+                    String finalFacePath = String.format("F:/AwesomeVideoUpload/%s/face/%s", userId, fileName);
+                    // 设置数据库保存的路径
+                    uploadPathDB = String.format("/%s/face/%s", userId, fileName);
+
+                    File outFile = new File(finalFacePath);
+                    if (outFile.getParentFile() != null && !outFile.getParentFile().isDirectory()) {
+                        // 创建父文件夹
+                        outFile.getParentFile().mkdirs();
                     }
+
+                    out = new FileOutputStream(outFile);
+                    in = file.getInputStream();
+
+                    // 将上传文件的输入流写入服务器上传文件夹
+                    IOUtils.copy(in, out);
                 }
-
-                out = new FileOutputStream(outFile);
-                in = files[0].getInputStream();
-
-                // 将上传文件的输入流写入服务器上传文件夹
-                IOUtils.copy(in, out);
+            } else {
+                JsonResult.errorMsg("上传文件不能为空，上传失败！");
             }
-
+        } catch (IOException e) {
+            return JsonResult.errorMsg("上传文件失败！");
+        } finally {
             // 关闭输入输出流
             IOUtils.closeQuietly(in);
             IOUtils.closeQuietly(out);
-            return JsonResult.ok();
         }
-        return JsonResult.errorMsg("上传文件不能为空，上传失败！");
+
+        User user = new User();
+        user.setId(userId);
+        user.setFaceImage(uploadPathDB);
+        // 更新用户信息
+        userService.updateUserInfo(user);
+
+        return JsonResult.ok();
     }
 
 }
