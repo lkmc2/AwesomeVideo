@@ -36,4 +36,11 @@ public interface UserService {
      * @param user 用户
      */
     void updateUserInfo(User user);
+
+    /**
+     * 查询用户信息
+     * @param userId 用户id
+     * @return 用户
+     */
+    User queryUserInfo(String userId);
 }

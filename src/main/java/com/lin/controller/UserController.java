@@ -3,12 +3,14 @@ package com.lin.controller;
 import com.lin.model.User;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
+import com.lin.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,6 +89,23 @@ public class UserController extends BaseController {
         userService.updateUserInfo(user);
 
         return JsonResult.ok(uploadPathDB);
+    }
+
+    @ApiOperation(value = "查询用户信息", notes = "查询用户信息的接口")
+    @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query")
+    @PostMapping(value = "/query")
+    public JsonResult query(String userId) {
+        if (StringUtils.isBlank(userId)) {
+            return JsonResult.errorMsg("用户id不能为空");
+        }
+
+        // 查询用户信息
+        User userInfo = userService.queryUserInfo(userId);
+        UserVo userVo = new UserVo();
+        // 将用户信息复制到Vo对象
+        BeanUtils.copyProperties(userInfo, userVo);
+
+        return JsonResult.ok(userVo);
     }
 
 }

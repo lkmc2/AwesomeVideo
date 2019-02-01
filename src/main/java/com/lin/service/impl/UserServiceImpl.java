@@ -52,6 +52,8 @@ public class UserServiceImpl implements UserService {
         return effectCount == 1;
     }
 
+    // 如果没有该事务，以非事务运行
+    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public User queryUserForLogin(String username, String password) {
         // 创建用户查询实例
@@ -67,6 +69,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOneByExample(userExample);
     }
 
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void updateUserInfo(User user) {
         // 创建用户查询实例
@@ -81,5 +85,20 @@ public class UserServiceImpl implements UserService {
         userMapper.updateByExampleSelective(user, userExample);
     }
 
+    // 如果没有该事务，以非事务运行
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public User queryUserInfo(String userId) {
+        // 创建用户查询实例
+        Example userExample = new Example(User.class);
+
+        // 查询条件
+        Example.Criteria criteria = userExample.createCriteria();
+        // 用户id需相等
+        criteria.andEqualTo("id", userId);
+
+        // 根据查询实例进行查询用户
+        return userMapper.selectOneByExample(userExample);
+    }
 
 }

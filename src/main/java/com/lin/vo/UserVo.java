@@ -1,12 +1,12 @@
 package com.lin.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Table;
 
 @ApiModel(value = "用户视图对象", description = "这是用户视图对象")
-@Table(name = "users")
 public class UserVo {
 
     @ApiModelProperty(hidden = true)
@@ -28,6 +28,7 @@ public class UserVo {
      * 密码
      */
     @ApiModelProperty(value = "密码", name = "password", example = "123456", required = true)
+    @JsonIgnore
     private String password;
 
     /**
