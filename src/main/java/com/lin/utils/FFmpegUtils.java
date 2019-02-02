@@ -4,18 +4,19 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author lkmc2
  * @date 2019/2/2
- * @description ffmpeg合并视频和音频工具
+ * @description ffmpeg工具类
  */
-public class MergeVideoMp3 {
+public class FFmpegUtils {
 
     private String ffmpegExe; // ffmpeg.exe所在位置
 
-    public MergeVideoMp3(String ffmpegExe) {
+    public FFmpegUtils(String ffmpegExe) {
         this.ffmpegExe = ffmpegExe;
     }
 
@@ -27,49 +28,38 @@ public class MergeVideoMp3 {
      * @param videoOutputPath 输出视频位置
      * @throws IOException 文件输出输出异常
      */
-    public void convert(String videoInputPath, String mp3InputPath, double seconds, String videoOutputPath) throws IOException {
+    public void mergeVideoAndBackgroundMusic(String videoInputPath, String mp3InputPath, double seconds, String videoOutputPath) throws IOException {
         // 去除原视频声音命令行：ffmpeg -i video.mp4 -c:v copy -an video-no-audio.mp4
         // 合并背景乐和视频代码：ffmpeg -i video-no-audio.mp4 -i 愉快.mp3 -t 10 -y movie.avi
-        // -i 表示输入的文件；-t 表示最后生成的文件时间；-y 表示覆盖原文件
+        // 生成指定尺寸的缩略图：ffmpeg -i video.mp4 -ss 00:00:01 -s 200*200 -y test.jpg
+        // -i 表示输入的文件；-t 表示最后生成的文件时间；-y 表示覆盖原文件；
+        // -ss表示截图的开始时间，可以是1，也可以是00:00:01；-s表示生成的尺寸
 
         // 去掉音轨的视频文件名
         String videoNoAudio = videoInputPath + "-no-audio.mp4";
-        List<String> command = new ArrayList<>();
 
-        command.add(ffmpegExe);
-        command.add("-i");
-        command.add(videoInputPath);
-
-        command.add("-c:v");
-        command.add("copy");
-
-        command.add("-an");
-
-        command.add(videoNoAudio);
-
+        List<String> command = Arrays.asList(ffmpegExe, "-i", videoInputPath, "-c:v", "copy", "-an", videoNoAudio);
         // 执行命令去掉原视频的音轨
         executeCommand(command);
 
-        command.clear();
-        command.add(ffmpegExe);
-        command.add("-i");
-        command.add(videoNoAudio);
-
-        command.add("-i");
-        command.add(mp3InputPath);
-
-        command.add("-t");
-        command.add(String.valueOf(seconds));
-
-        command.add("-y");
-        command.add(videoOutputPath);
-
+        command = Arrays.asList(ffmpegExe, "-i", videoNoAudio, "-i", mp3InputPath, "-t", String.valueOf(seconds), "-y", videoOutputPath);
         // 执行命令合并视频和背景乐
         executeCommand(command);
 
         // 删除去掉音轨的视频和原视频
         deleteVideo(videoNoAudio);
         deleteVideo(videoInputPath);
+    }
+
+    /**
+     * 生成视频缩略图
+     * @param videoOutputPath 输出视频位置
+     * @throws IOException 文件输出输出异常
+     */
+    public void createVideoThumbnail(String videoOutputPath) throws IOException {
+        List<String> command = Arrays.asList(ffmpegExe, "-i", videoOutputPath, "-ss", "00:00:01", "-s", "200*200", "-y", videoOutputPath + ".jpg");
+        // 执行命令生成视频缩略图
+        executeCommand(command);
     }
 
     /**
@@ -115,8 +105,8 @@ public class MergeVideoMp3 {
     }
 
     public static void main(String[] args) throws IOException {
-        MergeVideoMp3 ffmpeg = new MergeVideoMp3("H:/ffmpeg/bin/ffmpeg.exe");
-        ffmpeg.convert("F:/AwesomeVideoUpload/180930DRXM99CKKP/video/video.mp4",
+        FFmpegUtils ffmpeg = new FFmpegUtils("H:/ffmpeg/bin/ffmpeg.exe");
+        ffmpeg.mergeVideoAndBackgroundMusic("F:/AwesomeVideoUpload/180930DRXM99CKKP/video/video.mp4",
                 "F:/AwesomeVideoUpload/180930DRXM99CKKP/video/愉快.mp3",
                 10,
                 "F:/AwesomeVideoUpload/180930DRXM99CKKP/video/movie.avi");
