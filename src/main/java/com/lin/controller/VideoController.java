@@ -134,8 +134,68 @@ public class VideoController {
         video.setStatus(VideoStatusEnum.SUCCESS.value);
         video.setCreateTime(new Date());
 
-        // 保存视频到数据库
-        videoService.saveVideo(video);
+        // 保存视频到数据库，并返回视频id
+        String videoId = videoService.saveVideo(video);
+
+        return JsonResult.ok(videoId);
+    }
+
+    @ApiOperation(value = "上传视频封面", notes = "上传视频封面的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "videoId", value = "视频id", required = true, dataType = "String", paramType = "form")
+    })
+    @PostMapping(value = "/uploadCover", headers="content-type=multipart/form-data")
+    public JsonResult uploadCover(String userId, String videoId,
+                             @ApiParam(value = "视频封面", required = true) MultipartFile file) throws IOException {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(videoId)) {
+            return JsonResult.errorMsg("用户id和视频id不能为空");
+        }
+
+        // 文件上传的最终保存路径
+        String finalCoverPath = "";
+        // 数据库保存的路径
+        String uploadPathDB = String.format("/%s/video", videoId);
+
+        FileOutputStream out = null;
+        InputStream in = null;
+        File outFile = null; // 保存到服务器的文件
+        try {
+            // 上传文件不为空
+            if (file != null) {
+                String fileName = file.getOriginalFilename();
+                if (StringUtils.isNoneBlank(fileName)) {
+                    // 文件上传的最终保存路径
+                    finalCoverPath = String.format("F:/AwesomeVideoUpload/%s/video/%s", userId, fileName);
+                    // 设置数据库保存的路径
+                    uploadPathDB = String.format("/%s/video/%s", userId, fileName);
+
+                    outFile = new File(finalCoverPath);
+                    if (outFile.getParentFile() != null && !outFile.getParentFile().isDirectory()) {
+                        // 创建父文件夹
+                        //noinspection ResultOfMethodCallIgnored
+                        outFile.getParentFile().mkdirs();
+                    }
+
+                    out = new FileOutputStream(outFile);
+                    in = file.getInputStream();
+
+                    // 将上传文件的输入流写入服务器上传文件夹
+                    IOUtils.copy(in, out);
+                }
+            } else {
+                JsonResult.errorMsg("上传封面不能为空，上传失败！");
+            }
+        } catch (IOException e) {
+            return JsonResult.errorMsg("上传封面失败！");
+        } finally {
+            // 关闭输入输出流
+            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(out);
+        }
+
+        // 更新视频封面路径信息
+        videoService.updateVideo(videoId, uploadPathDB);
 
         return JsonResult.ok();
     }

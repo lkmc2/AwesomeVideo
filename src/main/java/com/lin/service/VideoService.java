@@ -11,6 +11,14 @@ public interface VideoService {
     /**
      * 保存视频
      * @param video 视频
+     * @return 视频id
      */
-    void saveVideo(Video video);
+    String saveVideo(Video video);
+
+    /**
+     * 更新视频信息
+     * @param videoId 视频id
+     * @param coverPath 视频封面路径
+     */
+    void updateVideo(String videoId, String coverPath);
 }

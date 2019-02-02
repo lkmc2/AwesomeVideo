@@ -26,11 +26,26 @@ public class VideoServiceImpl implements VideoService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void saveVideo(Video video) {
+    public String saveVideo(Video video) {
         String id = sid.nextShort();
         video.setId(id);
         // 插入视频到数据库
         videoMapper.insertSelective(video);
+
+        return id;
+    }
+
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void updateVideo(String videoId, String coverPath) {
+        Video video = new Video();
+        video.setId(videoId);
+        // 设置视频封面路径
+        video.setCoverPath(coverPath);
+
+        // 更新视频信息
+        videoMapper.updateByPrimaryKeySelective(video);
     }
 
 }
