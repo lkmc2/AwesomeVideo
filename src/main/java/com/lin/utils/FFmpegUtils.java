@@ -1,9 +1,10 @@
 package com.lin.utils;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * @description ffmpeg工具类
  */
 public class FFmpegUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FFmpegUtils.class);
 
     private String ffmpegExe; // ffmpeg.exe所在位置
 
@@ -31,9 +34,9 @@ public class FFmpegUtils {
     public void mergeVideoAndBackgroundMusic(String videoInputPath, String mp3InputPath, double seconds, String videoOutputPath) throws IOException {
         // 去除原视频声音命令行：ffmpeg -i video.mp4 -c:v copy -an video-no-audio.mp4
         // 合并背景乐和视频代码：ffmpeg -i video-no-audio.mp4 -i 愉快.mp3 -t 10 -y movie.avi
-        // 生成指定尺寸的缩略图：ffmpeg -i video.mp4 -ss 00:00:01 -s 200*200 -y test.jpg
+        // 生成指定尺寸的缩略图：ffmpeg -i video.mp4 -ss 00:00:01 -vframes 1 -y test.jpg
         // -i 表示输入的文件；-t 表示最后生成的文件时间；-y 表示覆盖原文件；
-        // -ss表示截图的开始时间，可以是1，也可以是00:00:01；-s表示生成的尺寸
+        // -ss表示截图的开始时间，可以是1，也可以是00:00:01；-vframes表示帧数
 
         // 去掉音轨的视频文件名
         String videoNoAudio = videoInputPath + "-no-audio.mp4";
@@ -57,7 +60,7 @@ public class FFmpegUtils {
      * @throws IOException 文件输出输出异常
      */
     public void createVideoThumbnail(String videoOutputPath) throws IOException {
-        List<String> command = Arrays.asList(ffmpegExe, "-i", videoOutputPath, "-ss", "00:00:01", "-s", "200*200", "-y", videoOutputPath + ".jpg");
+        List<String> command = Arrays.asList(ffmpegExe, "-i", videoOutputPath, "-ss", "00:00:01", "-y", "-vframes", "1", videoOutputPath + ".jpg");
         // 执行命令生成视频缩略图
         executeCommand(command);
     }
@@ -82,10 +85,11 @@ public class FFmpegUtils {
      * @throws IOException 输入输出异常
      */
     private void executeCommand(List<String> command) throws IOException {
-        for (String s : command) {
-            System.out.print(s + " ");
+        StringBuilder sb = new StringBuilder();
+        for (String str : command) {
+            sb.append(str).append(" ");
         }
-        System.out.println();
+        LOGGER.info(sb.toString());
 
         // 执行命令行语句
         ProcessBuilder builder = new ProcessBuilder(command);
@@ -99,6 +103,7 @@ public class FFmpegUtils {
         while ((line = bufferedReader.readLine()) != null) {
         }
 
+        // 关闭输入流
         IOUtils.closeQuietly(bufferedReader);
         IOUtils.closeQuietly(inputStreamReader);
         IOUtils.closeQuietly(errorStream);

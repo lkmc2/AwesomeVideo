@@ -1,10 +1,8 @@
-package com.lin.vo;
+package com.lin.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import javax.persistence.Table;
 
 @ApiModel(value = "用户视图对象", description = "这是用户视图对象")
 public class UserVo {

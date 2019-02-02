@@ -10,6 +10,8 @@ import com.lin.utils.FFmpegUtils;
 import io.swagger.annotations.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/video")
 public class VideoController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(VideoController.class);
 
     // 静态资源所在路径
     private static final String FILE_BASE = "F:/AwesomeVideoUpload";
@@ -123,9 +127,9 @@ public class VideoController {
         // 生成视频缩略图
         ffmpegUtils.createVideoThumbnail(finalVideoPath);
 
-        System.out.println("uploadPathDB = " + uploadPathDB);
-        System.out.println("coverPath = " + uploadPathDB + ".jpg");
-        System.out.println("finalVideoPath = " + finalVideoPath);
+        LOGGER.info("uploadPathDB = {}", uploadPathDB);
+        LOGGER.info("coverPath = {}", uploadPathDB + ".jpg");
+        LOGGER.info("finalVideoPath {}= ", finalVideoPath);
 
         // 保存视频信息到数据库
         Video video = new Video();

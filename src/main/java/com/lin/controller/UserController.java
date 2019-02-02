@@ -3,7 +3,7 @@ package com.lin.controller;
 import com.lin.model.User;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
-import com.lin.vo.UserVo;
+import com.lin.model.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
