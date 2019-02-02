@@ -1,6 +1,7 @@
 package com.lin.service;
 
 import com.lin.model.Video;
+import com.lin.utils.PagedResult;
 
 /**
  * @author lkmc2
@@ -14,4 +15,12 @@ public interface VideoService {
      * @return 视频id
      */
     String saveVideo(Video video);
+
+    /**
+     * 分页查询视频列表
+     * @param currentPage 当前页数
+     * @param pageSize 显示的记录数
+     * @return 封装分页后的数据格式
+     */
+    PagedResult getAllVideos(Integer currentPage, Integer pageSize);
 }

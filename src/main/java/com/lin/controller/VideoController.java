@@ -7,6 +7,7 @@ import com.lin.service.BgmService;
 import com.lin.service.VideoService;
 import com.lin.utils.JsonResult;
 import com.lin.utils.FFmpegUtils;
+import com.lin.utils.PagedResult;
 import io.swagger.annotations.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,14 +34,9 @@ import java.util.UUID;
 @Api(value = "视频相关业务的接口", tags = {"视频相关业务的Controller"})
 @RestController
 @RequestMapping("/video")
-public class VideoController {
+public class VideoController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VideoController.class);
-
-    // 静态资源所在路径
-    private static final String FILE_BASE = "F:/AwesomeVideoUpload";
-    // ffmpeg所在路径
-    private static final String FFMPEG_EXE = "H:/ffmpeg/bin/ffmpeg.exe";
 
     @Autowired
     private BgmService bgmService;
@@ -148,6 +144,18 @@ public class VideoController {
         String videoId = videoService.saveVideo(video);
 
         return JsonResult.ok(videoId);
+    }
+
+    @ApiOperation(value = "获取所有视频的分页信息", notes = "获取所有视频的分页信息的接口")
+    @ApiImplicitParam(name = "currentPage", value = "当前页数", required = true, dataType = "int", paramType = "query")
+    @PostMapping("/showAll")
+    public JsonResult showAll(Integer currentPage) {
+        if (currentPage == null) {
+            currentPage = 1;
+        }
+
+        PagedResult result = videoService.getAllVideos(currentPage, PAGE_SIZE);
+        return JsonResult.ok(result);
     }
 
 }

@@ -12,11 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BaseController {
 
+    // Redis操作工具
+    @Autowired
+    protected RedisOperator redis;
+
     // 用户Redis Session名
     protected static final String USER_REDIS_SESSION = "user-redis-session";
 
-    // Redis操作工具
-    @Autowired
-    public RedisOperator redis;
+    // 静态资源所在路径
+    protected static final String FILE_BASE = "F:/AwesomeVideoUpload";
+
+    // ffmpeg所在路径
+    protected static final String FFMPEG_EXE = "H:/ffmpeg/bin/ffmpeg.exe";
+
+    // 每页分页的记录数
+    protected static final Integer PAGE_SIZE = 5;
 
 }
