@@ -110,6 +110,7 @@ public class VideoController {
             String mp3InputPath = FILE_BASE + bgm.getPath();
             String videoInputPath = finalVideoPath;
 
+            // 合并视频和背景乐的工具
             MergeVideoMp3 tool = new MergeVideoMp3(FFMPEG_EXE);
             String videoOutputName = UUID.randomUUID().toString() + ".mp4";
 
@@ -117,12 +118,6 @@ public class VideoController {
             uploadPathDB = String.format("/%s/video/%s", userId, videoOutputName);
             finalVideoPath = FILE_BASE + uploadPathDB;
             tool.convert(videoInputPath, mp3InputPath, videoSeconds, finalVideoPath);
-
-            // 删除上传服务器的临时文件
-            if (outFile != null && outFile.exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                outFile.delete();
-            }
         }
         System.out.println("uploadPathDB = " + uploadPathDB);
         System.out.println("finalVideoPath = " + finalVideoPath);

@@ -2,10 +2,7 @@ package com.lin.utils;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +28,32 @@ public class MergeVideoMp3 {
      * @throws IOException 文件输出输出异常
      */
     public void convert(String videoInputPath, String mp3InputPath, double seconds, String videoOutputPath) throws IOException {
-        // 合并音视频的命令行代码：ffmpeg -i video.mp4 -i 愉快.mp3 -t 10 -y movie.avi
+        // 去除原视频声音命令行：ffmpeg -i video.mp4 -c:v copy -an video-no-audio.mp4
+        // 合并背景乐和视频代码：ffmpeg -i video-no-audio.mp4 -i 愉快.mp3 -t 10 -y movie.avi
         // -i 表示输入的文件；-t 表示最后生成的文件时间；-y 表示覆盖原文件
+
+        // 去掉音轨的视频文件名
+        String videoNoAudio = videoInputPath + "-no-audio.mp4";
         List<String> command = new ArrayList<>();
+
         command.add(ffmpegExe);
         command.add("-i");
         command.add(videoInputPath);
+
+        command.add("-c:v");
+        command.add("copy");
+
+        command.add("-an");
+
+        command.add(videoNoAudio);
+
+        // 执行命令去掉原视频的音轨
+        executeCommand(command);
+
+        command.clear();
+        command.add(ffmpegExe);
+        command.add("-i");
+        command.add(videoNoAudio);
 
         command.add("-i");
         command.add(mp3InputPath);
@@ -47,6 +64,34 @@ public class MergeVideoMp3 {
         command.add("-y");
         command.add(videoOutputPath);
 
+        // 执行命令合并视频和背景乐
+        executeCommand(command);
+
+        // 删除去掉音轨的视频和原视频
+        deleteVideo(videoNoAudio);
+        deleteVideo(videoInputPath);
+    }
+
+    /**
+     * 删除视频
+     * @param filePath 文件路径
+     */
+    private void deleteVideo(String filePath) {
+        File file = new File(filePath);
+
+        // 删除上传服务器的临时文件
+        if (file.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            file.delete();
+        }
+    }
+
+    /**
+     * 在控制台中执行命令
+     * @param command 命令列表
+     * @throws IOException 输入输出异常
+     */
+    private void executeCommand(List<String> command) throws IOException {
         for (String s : command) {
             System.out.print(s + " ");
         }
