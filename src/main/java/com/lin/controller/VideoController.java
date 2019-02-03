@@ -14,9 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -146,15 +144,19 @@ public class VideoController extends BaseController {
         return JsonResult.ok(videoId);
     }
 
-    @ApiOperation(value = "获取所有视频的分页信息", notes = "获取所有视频的分页信息的接口")
-    @ApiImplicitParam(name = "currentPage", value = "当前页数", required = true, dataType = "int", paramType = "query")
+    @ApiOperation(value = "分页和搜索查询视频列表", notes = "分页和搜索查询视频列表的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "video", value = "视频对象", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "isSaveRecord", value = "是否保存记录", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "currentPage", value = "当前页数", required = true, dataType = "int", paramType = "query")
+    })
     @PostMapping("/showAll")
-    public JsonResult showAll(Integer currentPage) {
+    public JsonResult showAll(@RequestBody Video video, Integer isSaveRecord, Integer currentPage) {
         if (currentPage == null) {
             currentPage = 1;
         }
 
-        PagedResult result = videoService.getAllVideos(currentPage, PAGE_SIZE);
+        PagedResult result = videoService.getAllVideos(video, isSaveRecord, currentPage, PAGE_SIZE);
         return JsonResult.ok(result);
     }
 

@@ -2,8 +2,10 @@ package com.lin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lin.dao.SearchRecordsMapper;
 import com.lin.dao.VideoMapper;
 import com.lin.dao.VideoMapperCustom;
+import com.lin.model.SearchRecords;
 import com.lin.model.Video;
 import com.lin.model.vo.VideoVo;
 import com.lin.service.VideoService;
@@ -31,6 +33,9 @@ public class VideoServiceImpl implements VideoService {
     private VideoMapperCustom videoMapperCustom;
 
     @Autowired
+    private SearchRecordsMapper searchRecordsMapper;
+
+    @Autowired
     private Sid sid;
 
     // 运行当前事务，如果当前没有事务，就新建一个事务
@@ -45,12 +50,27 @@ public class VideoServiceImpl implements VideoService {
         return id;
     }
 
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public PagedResult getAllVideos(Integer currentPage, Integer pageSize) {
+    public PagedResult getAllVideos(Video video, Integer isSaveRecord, Integer currentPage, Integer pageSize) {
+        // 获取视频描述
+        String desc = video.getVideoDesc();
+
+        // 当isSaveRecord为1时，保存搜索记录
+        if (isSaveRecord != null && isSaveRecord == 1) {
+            SearchRecords record = new SearchRecords();
+            String recordId = sid.nextShort();
+            record.setId(recordId);
+            record.setContent(desc);
+
+            searchRecordsMapper.insert(record);
+        }
+
         // 使用分页插件进行分页
         PageHelper.startPage(currentPage, pageSize);
         // 查询所有视频
-        List<VideoVo> list = videoMapperCustom.queryAllVideos();
+        List<VideoVo> list = videoMapperCustom.queryAllVideos(desc);
 
         // 使用分页插件生成分页信息
         PageInfo<VideoVo> pageInfo = new PageInfo<>(list);

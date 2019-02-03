@@ -21,11 +21,16 @@
     <result column="nickname" property="nickName" jdbcType="TIMESTAMP" />
   </resultMap>
 
-  <select id="queryAllVideos" resultMap="BaseResultMap">
+  <select id="queryAllVideos" parameterType="string" resultMap="BaseResultMap">
     select v.*, u.face_image as face_image, u.nickname as nickname
     from videos v
     left join users u on u.id = v.user_id
-    where v.status = 1
+    <where>
+      <if test="videoDesc != null and videoDesc != ''">
+        and v.video_desc like '%${videoDesc}%'
+      </if>
+      v.status = 1
+    </where>
     order by v.create_time desc
   </select>
 
