@@ -160,4 +160,10 @@ public class VideoController extends BaseController {
         return JsonResult.ok(result);
     }
 
+    @ApiOperation(value = "获取热搜词", notes = "获取热搜词的接口")
+    @PostMapping("/hot")
+    public JsonResult hot() {
+        return JsonResult.ok(videoService.getHotWords());
+    }
+
 }

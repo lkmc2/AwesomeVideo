@@ -3,6 +3,8 @@ package com.lin.service;
 import com.lin.model.Video;
 import com.lin.utils.PagedResult;
 
+import java.util.List;
+
 /**
  * @author lkmc2
  * @date 2019/2/2
@@ -26,4 +28,10 @@ public interface VideoService {
      * @return 封装分页后的数据格式
      */
     PagedResult getAllVideos(Video video, Integer isSaveRecord, Integer currentPage, Integer pageSize);
+
+    /**
+     * 获取热搜词
+     * @return 热搜词列表
+     */
+    List<String> getHotWords();
 }

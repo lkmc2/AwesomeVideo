@@ -57,7 +57,7 @@ public class VideoServiceImpl implements VideoService {
         // 获取视频描述
         String desc = video.getVideoDesc();
 
-        // 当isSaveRecord为1时，保存搜索记录
+        // 当isSaveRecord为1时，保存搜索记录（热搜词）
         if (isSaveRecord != null && isSaveRecord == 1) {
             SearchRecords record = new SearchRecords();
             String recordId = sid.nextShort();
@@ -82,6 +82,13 @@ public class VideoServiceImpl implements VideoService {
         pagedResult.setRows(list); // 设置每行显示的内容
         pagedResult.setRecords(pageInfo.getTotal()); // 设置总记录数
         return pagedResult;
+    }
+
+    // 如果没有该事务，以非事务运行
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public List<String> getHotWords() {
+        return searchRecordsMapper.getHotWords();
     }
 
 }
