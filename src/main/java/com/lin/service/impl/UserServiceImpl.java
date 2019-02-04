@@ -1,15 +1,20 @@
 package com.lin.service.impl;
 
+import com.lin.dao.UserLikeVideosMapper;
 import com.lin.dao.UserMapper;
 import com.lin.model.User;
 
+import com.lin.model.UserLikeVideos;
 import com.lin.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+
+import java.util.List;
 
 /**
  * @author lkmc2
@@ -21,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserLikeVideosMapper userLikeVideosMapper;
 
     @Autowired
     private Sid sid;
@@ -99,6 +107,27 @@ public class UserServiceImpl implements UserService {
 
         // 根据查询实例进行查询用户
         return userMapper.selectOneByExample(userExample);
+    }
+
+    // 如果没有该事务，以非事务运行
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public boolean isUserLikeVideo(String userId, String videoId) {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(videoId)) {
+            return false;
+        }
+
+        // 新建查询对象
+        Example example = new Example(UserLikeVideos.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        // 用户id和视频id都需相等
+        criteria.andEqualTo("userId", userId);
+        criteria.andEqualTo("videoId", videoId);
+
+        List<UserLikeVideos> list = userLikeVideosMapper.selectByExample(example);
+
+        return list != null && list.size() > 0;
     }
 
 }

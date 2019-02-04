@@ -1,13 +1,11 @@
 package com.lin.controller;
 
 import com.lin.model.User;
+import com.lin.model.vo.PublisherVideoVo;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
 import com.lin.model.vo.UserVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -106,6 +104,35 @@ public class UserController extends BaseController {
         BeanUtils.copyProperties(userInfo, userVo);
 
         return JsonResult.ok(userVo);
+    }
+
+    @ApiOperation(value = "查询发布者信息", notes = "查询发布者信息的接口")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "loginUserId", value = "登陆用户id", required = true, dataType = "String", paramType = "query"),
+        @ApiImplicitParam(name = "videoId", value = "视频id", required = true, dataType = "String", paramType = "query"),
+        @ApiImplicitParam(name = "publishUserId", value = "发布者id", required = true, dataType = "String", paramType = "query")
+    })
+    @PostMapping(value = "/queryPublisher")
+    public JsonResult queryPublisher(String loginUserId, String videoId, String publishUserId) {
+        if (StringUtils.isBlank(publishUserId)) {
+            return JsonResult.errorMsg("发布者id不能为空");
+        }
+
+        // 1.查询视频发布者的信息
+        User userInfo = userService.queryUserInfo(publishUserId);
+        UserVo publisher = new UserVo();
+        // 将用户信息复制到Vo对象
+        BeanUtils.copyProperties(userInfo, publisher);
+
+        // 2.查询当前登陆者和顺逆的点赞关系
+        boolean userLikeVideo = userService.isUserLikeVideo(loginUserId, videoId);
+
+        // 发布者与视频VO
+        PublisherVideoVo publisherVideoVo = new PublisherVideoVo();
+        publisherVideoVo.setPublisher(publisher); // 设置视频发布者
+        publisherVideoVo.setUserLikeVideo(userLikeVideo); // 设置用户是否给该视频点赞
+
+        return JsonResult.ok(publisherVideoVo);
     }
 
 }

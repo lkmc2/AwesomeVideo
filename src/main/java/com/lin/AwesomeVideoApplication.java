@@ -8,7 +8,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @MapperScan("com.lin.dao")
-@ComponentScan("com.lin")
+//@ComponentScan("com.lin")
 public class AwesomeVideoApplication {
 
     public static void main(String[] args) {
