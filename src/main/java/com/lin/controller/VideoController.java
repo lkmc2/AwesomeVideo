@@ -166,4 +166,20 @@ public class VideoController extends BaseController {
         return JsonResult.ok(videoService.getHotWords());
     }
 
+    @ApiOperation(value = "用户给视频点赞", notes = "用户给视频点赞的接口")
+    @PostMapping("/userLike")
+    public JsonResult userLike(String userId, String videoId, String videoCreatorId) {
+        // 给视频点赞
+        videoService.userLikeVideo(userId, videoId, videoCreatorId);
+        return JsonResult.ok();
+    }
+
+    @ApiOperation(value = "用户给视频取消点赞", notes = "用户给视频取消点赞的接口")
+    @PostMapping("/userUnLike")
+    public JsonResult userUnLike(String userId, String videoId, String videoCreatorId) {
+        // 给视频取消点赞
+        videoService.userUnlikeVideo(userId, videoId, videoCreatorId);
+        return JsonResult.ok();
+    }
+
 }

@@ -15,4 +15,18 @@
     <result column="receive_like_counts" property="receiveLikeCounts" jdbcType="INTEGER" />
   </resultMap>
 
+  <!--增加用户受喜欢数-->
+  <update id="addReceiveLikeCount" parameterType="string">
+      update users
+      set receive_like_counts = receive_like_counts + 1
+      where id = #{videoCreatorId}
+  </update>
+
+  <!--减少用户受喜欢数-->
+  <update id="reduceReceiveLikeCount" parameterType="string">
+    update users
+    set receive_like_counts = receive_like_counts - 1
+    where id = #{videoCreatorId}
+  </update>
+
 </mapper>
