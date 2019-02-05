@@ -1,6 +1,7 @@
 package com.lin.service;
 
 import com.lin.model.User;
+import com.lin.model.UserReport;
 
 /**
  * @author lkmc2
@@ -51,4 +52,10 @@ public interface UserService {
      * @return 用户是否给该视频点赞
      */
     boolean isUserLikeVideo(String userId, String videoId);
+
+    /**
+     * 举报用户
+     * @param userReport 用户举报信息
+     */
+    void reportUser(UserReport userReport);
 }

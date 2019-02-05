@@ -1,6 +1,7 @@
 package com.lin.controller;
 
 import com.lin.model.User;
+import com.lin.model.UserReport;
 import com.lin.model.vo.PublisherVideoVo;
 import com.lin.service.UserService;
 import com.lin.utils.JsonResult;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -133,6 +135,14 @@ public class UserController extends BaseController {
         publisherVideoVo.setUserLikeVideo(userLikeVideo); // 设置用户是否给该视频点赞
 
         return JsonResult.ok(publisherVideoVo);
+    }
+
+    @ApiOperation(value = "举报用户", notes = "举报用户的接口")
+    @PostMapping(value = "/reportUser")
+    public JsonResult reportUser(@RequestBody UserReport userReport) {
+        // 保存举报信息
+        userService.reportUser(userReport);
+        return JsonResult.ok("举报成功…有你平台更美好");
     }
 
 }

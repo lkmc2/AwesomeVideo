@@ -2,9 +2,11 @@ package com.lin.service.impl;
 
 import com.lin.dao.UserLikeVideosMapper;
 import com.lin.dao.UserMapper;
+import com.lin.dao.UserReportMapper;
 import com.lin.model.User;
 
 import com.lin.model.UserLikeVideos;
+import com.lin.model.UserReport;
 import com.lin.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserLikeVideosMapper userLikeVideosMapper;
+
+    @Autowired
+    private UserReportMapper userReportMapper;
 
     @Autowired
     private Sid sid;
@@ -128,6 +134,16 @@ public class UserServiceImpl implements UserService {
         List<UserLikeVideos> list = userLikeVideosMapper.selectByExample(example);
 
         return list != null && list.size() > 0;
+    }
+
+    @Override
+    public void reportUser(UserReport userReport) {
+        String reportId = sid.nextShort();
+        userReport.setId(reportId);
+        userReport.setCreateDate(new Date());
+
+        // 插入用户举报记录
+        userReportMapper.insert(userReport);
     }
 
 }
