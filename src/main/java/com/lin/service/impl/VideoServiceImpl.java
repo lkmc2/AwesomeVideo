@@ -3,6 +3,7 @@ package com.lin.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lin.dao.*;
+import com.lin.model.Comment;
 import com.lin.model.SearchRecords;
 import com.lin.model.UserLikeVideos;
 import com.lin.model.Video;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +42,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Autowired
     private Sid sid;
@@ -138,6 +143,18 @@ public class VideoServiceImpl implements VideoService {
 
         // 3.用户受喜欢数量减少
         userMapper.reduceReceiveLikeCount(videoCreatorId);
+    }
+
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void saveComment(Comment comment) {
+        String id = sid.nextShort();
+        comment.setId(id);
+        comment.setCreateTime(new Date());
+
+        // 将评论插入数据库
+        commentMapper.insert(comment);
     }
 
 }

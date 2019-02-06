@@ -1,5 +1,6 @@
 package com.lin.service;
 
+import com.lin.model.Comment;
 import com.lin.model.Video;
 import com.lin.utils.PagedResult;
 
@@ -50,4 +51,10 @@ public interface VideoService {
      * @param videoCreatorId 视频发布者id
      */
     void userUnlikeVideo(String userId, String videoId, String videoCreatorId);
+
+    /**
+     * 保存评论
+     * @param comment 评论
+     */
+    void saveComment(Comment comment);
 }

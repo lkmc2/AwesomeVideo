@@ -2,6 +2,7 @@ package com.lin.controller;
 
 import com.lin.enums.VideoStatusEnum;
 import com.lin.model.Bgm;
+import com.lin.model.Comment;
 import com.lin.model.Video;
 import com.lin.service.BgmService;
 import com.lin.service.VideoService;
@@ -179,6 +180,24 @@ public class VideoController extends BaseController {
     public JsonResult userUnLike(String userId, String videoId, String videoCreatorId) {
         // 给视频取消点赞
         videoService.userUnlikeVideo(userId, videoId, videoCreatorId);
+        return JsonResult.ok();
+    }
+
+    @ApiOperation(value = "保存用户评论", notes = "保存用户评论的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fatherCommentId", value = "父评论id", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "toUserId", value = "被评论用户id", required = true, dataType = "String", paramType = "query")
+    })
+    @PostMapping("/saveComment")
+    public JsonResult saveComment(@RequestBody @ApiParam(value = "评论对象", required = true) Comment comment,
+                                  String fatherCommentId, String toUserId) {
+        // 设置父评论id
+        comment.setFatherCommentId(fatherCommentId);
+        // 被评论用户id
+        comment.setToUserId(toUserId);
+
+        // 保存评论
+        videoService.saveComment(comment);
         return JsonResult.ok();
     }
 
