@@ -6,8 +6,8 @@ import com.lin.model.Comment;
 import com.lin.model.Video;
 import com.lin.service.BgmService;
 import com.lin.service.VideoService;
-import com.lin.utils.JsonResult;
 import com.lin.utils.FFmpegUtils;
+import com.lin.utils.JsonResult;
 import com.lin.utils.PagedResult;
 import io.swagger.annotations.*;
 import org.apache.commons.io.IOUtils;
@@ -15,7 +15,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -199,6 +202,31 @@ public class VideoController extends BaseController {
         // 保存评论
         videoService.saveComment(comment);
         return JsonResult.ok();
+    }
+
+    @ApiOperation(value = "获取视频评论", notes = "获取视频评论的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "videoId", value = "视频id", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "当前页数", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页评论数", dataType = "String", paramType = "query")
+    })
+    @PostMapping("/getVideoComments")
+    public JsonResult getVideoComments(String videoId, Integer page, Integer pageSize) {
+        if (StringUtils.isBlank(videoId)) {
+            return JsonResult.ok();
+        }
+
+        if (page == null) {
+            page = 1;
+        }
+
+        if (pageSize == null) {
+            pageSize = 10;
+        }
+
+        // 分页查询视频列表，时间顺序倒序排列
+        PagedResult list = videoService.getAllComments(videoId, page, pageSize);
+        return JsonResult.ok(list);
     }
 
 }

@@ -57,4 +57,13 @@ public interface VideoService {
      * @param comment 评论
      */
     void saveComment(Comment comment);
+
+    /**
+     * 获取所有评论
+     * @param videoId 视频id
+     * @param page 当前页数
+     * @param pageSize 每页评论数
+     * @return 分页结果
+     */
+    PagedResult getAllComments(String videoId, Integer page, Integer pageSize);
 }

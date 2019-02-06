@@ -7,9 +7,11 @@ import com.lin.model.Comment;
 import com.lin.model.SearchRecords;
 import com.lin.model.UserLikeVideos;
 import com.lin.model.Video;
+import com.lin.model.vo.CommentVo;
 import com.lin.model.vo.VideoVo;
 import com.lin.service.VideoService;
 import com.lin.utils.PagedResult;
+import com.lin.utils.TimeAgoUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private CommentMapperCustom commentMapperCustom;
 
     @Autowired
     private Sid sid;
@@ -155,6 +160,35 @@ public class VideoServiceImpl implements VideoService {
 
         // 将评论插入数据库
         commentMapper.insert(comment);
+    }
+
+    // 如果没有该事务，以非事务运行
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedResult getAllComments(String videoId, Integer page, Integer pageSize) {
+        // 分页插件进行分页
+        PageHelper.startPage(page, pageSize);
+
+        // 查询视频对应的所有评论
+        List<CommentVo> commentVoList = commentMapperCustom.queryComments(videoId);
+
+        for (CommentVo commentVo : commentVoList) {
+            String timeAgo = TimeAgoUtils.format(commentVo.getCreateTime());
+            // 设置时间间隔字符串
+            commentVo.setTimeAgoStr(timeAgo);
+        }
+
+        // 创建插件的分页信息
+        PageInfo<CommentVo> pageList = new PageInfo<>(commentVoList);
+
+        // 创建自定义分页结果对象
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setTotal(pageList.getPages()); // 总页数
+        pagedResult.setRows(commentVoList); // 每行显示的内容
+        pagedResult.setPage(page); // 当前页数
+        pagedResult.setRecords(pageList.getTotal()); // 总记录数
+
+        return pagedResult;
     }
 
 }
