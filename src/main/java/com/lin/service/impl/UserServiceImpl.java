@@ -142,6 +142,8 @@ public class UserServiceImpl implements UserService {
         return list != null && list.size() > 0;
     }
 
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void reportUser(UserReport userReport) {
         String reportId = sid.nextShort();
@@ -152,6 +154,8 @@ public class UserServiceImpl implements UserService {
         userReportMapper.insert(userReport);
     }
 
+    // 如果没有该事务，以非事务运行
+    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public boolean queryIfFollow(String userId, String fanId) {
         // 创建查询对象
@@ -169,6 +173,8 @@ public class UserServiceImpl implements UserService {
         return !CollectionUtils.isEmpty(list);
     }
 
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void saveUserFanRelation(String userId, String fanId) {
         String id = sid.nextShort();
@@ -185,6 +191,27 @@ public class UserServiceImpl implements UserService {
         userMapper.addFansCount(userId);
         // 添加关注人数
         userMapper.addFollowersCount(fanId);
+    }
+
+    // 运行当前事务，如果当前没有事务，就新建一个事务
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void deleteUserFanRelation(String userId, String fanId) {
+        // 创建查询条件
+        Example example = new Example(UserFans.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        // 用户id和粉丝id相等
+        criteria.andEqualTo("userId", userId);
+        criteria.andEqualTo("fanId", fanId);
+
+        // 根据条件删除用户与粉丝关联关系
+        userFansMapper.deleteByExample(example);
+
+        // 减少粉丝数
+        userMapper.reduceFansCount(userId);
+        // 减少关注人数
+        userMapper.reduceFollowersCount(fanId);
     }
 
 }

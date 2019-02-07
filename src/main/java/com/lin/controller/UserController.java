@@ -160,6 +160,23 @@ public class UserController extends BaseController {
         return JsonResult.ok("关注成功");
     }
 
+    @ApiOperation(value = "取消关注用户", notes = "取消关注用户的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "fanId", value = "粉丝id", required = true, dataType = "String", paramType = "query")
+    })
+    @PostMapping(value = "/dontBeYourFans")
+    public JsonResult dontBeYourFans(String userId, String fanId) {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(fanId)) {
+            return JsonResult.errorMsg("userId和fanId不能为空");
+        }
+
+        // 删除用户与粉丝的关系
+        userService.deleteUserFanRelation(userId, fanId);
+
+        return JsonResult.ok("取消关注成功");
+    }
+
     @ApiOperation(value = "举报用户", notes = "举报用户的接口")
     @PostMapping(value = "/reportUser")
     public JsonResult reportUser(@RequestBody UserReport userReport) {

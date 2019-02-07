@@ -73,4 +73,12 @@ public interface UserService {
      * @param fanId 粉丝id
      */
     void saveUserFanRelation(String userId, String fanId);
+
+    /**
+     * 减少用户和粉丝的关系
+     * @param userId 用户id
+     * @param fanId 粉丝id
+     */
+    void deleteUserFanRelation(String userId, String fanId);
+
 }
