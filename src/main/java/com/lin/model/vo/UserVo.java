@@ -29,6 +29,8 @@ public class UserVo {
     @JsonIgnore
     private String password;
 
+    @ApiModelProperty(value = "是否关注该用户", name = "username", example = "jack", required = true)
+    private boolean isFollow;
     /**
      * 我的头像，如果没有默认给一张
      */
@@ -74,21 +76,6 @@ public class UserVo {
     }
 
     /**
-     * 获取用户认证凭据
-     * @return 用户认证凭据
-     */
-    public String getUserToken() {
-        return userToken;
-    }
-
-    /**
-     * 设置用户认证凭据
-     */
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
-    }
-
-    /**
      * 获取用户名
      *
      * @return username - 用户名
@@ -122,6 +109,14 @@ public class UserVo {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(boolean follow) {
+        isFollow = follow;
     }
 
     /**
@@ -212,5 +207,13 @@ public class UserVo {
      */
     public void setReceiveLikeCounts(Integer receiveLikeCounts) {
         this.receiveLikeCounts = receiveLikeCounts;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 }

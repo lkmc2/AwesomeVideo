@@ -1,10 +1,12 @@
 package com.lin.service.impl;
 
+import com.lin.dao.UserFansMapper;
 import com.lin.dao.UserLikeVideosMapper;
 import com.lin.dao.UserMapper;
 import com.lin.dao.UserReportMapper;
 import com.lin.model.User;
 
+import com.lin.model.UserFans;
 import com.lin.model.UserLikeVideos;
 import com.lin.model.UserReport;
 import com.lin.service.UserService;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
@@ -35,6 +38,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserReportMapper userReportMapper;
+
+    @Autowired
+    private UserFansMapper userFansMapper;
 
     @Autowired
     private Sid sid;
@@ -144,6 +150,23 @@ public class UserServiceImpl implements UserService {
 
         // 插入用户举报记录
         userReportMapper.insert(userReport);
+    }
+
+    @Override
+    public boolean queryIfFollow(String userId, String fanId) {
+        // 创建查询对象
+        Example example = new Example(UserFans.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        // 查询条件：用户id和粉丝id都相等
+        criteria.andEqualTo("userId", userId);
+        criteria.andEqualTo("fanId", fanId);
+
+        // 根据查询条件获取用户粉丝关联关系列表
+        List<UserFans> list = userFansMapper.selectByExample(example);
+
+        // 列表非空则已关注
+        return !CollectionUtils.isEmpty(list);
     }
 
 }

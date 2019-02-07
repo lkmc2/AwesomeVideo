@@ -58,4 +58,12 @@ public interface UserService {
      * @param userReport 用户举报信息
      */
     void reportUser(UserReport userReport);
+
+    /**
+     * 查询用户是否被关注
+     * @param userId 用户id
+     * @param fanId 粉丝id
+     * @return 用户是否被粉丝关注
+     */
+    boolean queryIfFollow(String userId, String fanId);
 }

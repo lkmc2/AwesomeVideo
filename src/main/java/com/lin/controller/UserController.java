@@ -92,9 +92,12 @@ public class UserController extends BaseController {
     }
 
     @ApiOperation(value = "查询用户信息", notes = "查询用户信息的接口")
-    @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "fanId", value = "粉丝id", required = true, dataType = "String", paramType = "query")
+    })
     @PostMapping(value = "/query")
-    public JsonResult query(String userId) {
+    public JsonResult query(String userId, String fanId) {
         if (StringUtils.isBlank(userId)) {
             return JsonResult.errorMsg("用户id不能为空");
         }
@@ -104,6 +107,9 @@ public class UserController extends BaseController {
         UserVo userVo = new UserVo();
         // 将用户信息复制到Vo对象
         BeanUtils.copyProperties(userInfo, userVo);
+
+        // 设置该用户是否被关注
+        userVo.setFollow(userService.queryIfFollow(userId, fanId));
 
         return JsonResult.ok(userVo);
     }
