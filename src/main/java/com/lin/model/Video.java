@@ -1,28 +1,36 @@
 package com.lin.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 import javax.persistence.*;
 
+@ApiModel(value = "视频对象", description = "这是视频对象")
 @Table(name = "videos")
 public class Video {
+    @ApiModelProperty(value = "视频id", name = "id", example = "10001", required = true)
     @Id
     private String id;
 
     /**
      * 发布者id
      */
+    @ApiModelProperty(value = "发布者id", name = "userId", example = "180425BNSR1CG0H0", required = true)
     @Column(name = "user_id")
     private String userId;
 
     /**
      * 用户使用音频的信息
      */
+    @ApiModelProperty(value = "用户使用音频的id", name = "audioId", example = "18052674D26HH32P")
     @Column(name = "audio_id")
     private String audioId;
 
     /**
      * 视频描述
      */
+    @ApiModelProperty(value = "视频描述", name = "videoDesc")
     @Column(name = "video_desc")
     private String videoDesc;
 

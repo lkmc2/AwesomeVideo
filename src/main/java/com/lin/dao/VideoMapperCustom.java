@@ -12,11 +12,12 @@ import java.util.List;
  */
 public interface VideoMapperCustom extends MyMapper<Video> {
     /**
-     * 查询所有视频
+     * 查询用户的所有视频
      * @param videoDesc 视频描述
+     * @param userId 用户id
      * @return 视频视图对象列表
      */
-    List<VideoVo> queryAllVideos(@Param("videoDesc") String videoDesc);
+    List<VideoVo> queryAllVideos(@Param("videoDesc") String videoDesc, @Param("userId") String userId);
 
     /**
      * 添加视频喜欢（点赞）数

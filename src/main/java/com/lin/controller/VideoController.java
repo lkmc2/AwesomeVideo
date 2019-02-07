@@ -150,12 +150,11 @@ public class VideoController extends BaseController {
 
     @ApiOperation(value = "分页和搜索查询视频列表", notes = "分页和搜索查询视频列表的接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "video", value = "视频对象", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "isSaveRecord", value = "是否保存记录", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "currentPage", value = "当前页数", required = true, dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "currentPage", value = "当前页数", dataType = "int", paramType = "query")
     })
     @PostMapping("/showAll")
-    public JsonResult showAll(@RequestBody Video video, Integer isSaveRecord, Integer currentPage) {
+    public JsonResult showAll(@ApiParam(value = "视频对象") @RequestBody Video video, Integer isSaveRecord, Integer currentPage) {
         if (currentPage == null) {
             currentPage = 1;
         }

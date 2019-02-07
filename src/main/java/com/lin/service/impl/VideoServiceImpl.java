@@ -72,6 +72,8 @@ public class VideoServiceImpl implements VideoService {
     public PagedResult getAllVideos(Video video, Integer isSaveRecord, Integer currentPage, Integer pageSize) {
         // 获取视频描述
         String desc = video.getVideoDesc();
+        // 获取用户id
+        String userId = video.getUserId();
 
         // 当isSaveRecord为1时，保存搜索记录（热搜词）
         if (isSaveRecord != null && isSaveRecord == 1) {
@@ -80,13 +82,14 @@ public class VideoServiceImpl implements VideoService {
             record.setId(recordId);
             record.setContent(desc);
 
+            // 保存搜索记录
             searchRecordsMapper.insert(record);
         }
 
         // 使用分页插件进行分页
         PageHelper.startPage(currentPage, pageSize);
         // 查询所有视频
-        List<VideoVo> list = videoMapperCustom.queryAllVideos(desc);
+        List<VideoVo> list = videoMapperCustom.queryAllVideos(desc, userId);
 
         // 使用分页插件生成分页信息
         PageInfo<VideoVo> pageInfo = new PageInfo<>(list);
