@@ -132,7 +132,7 @@ public class UserController extends BaseController {
         // 将用户信息复制到Vo对象
         BeanUtils.copyProperties(userInfo, publisher);
 
-        // 2.查询当前登陆者和顺逆的点赞关系
+        // 2.查询当前登陆者和视频的点赞关系
         boolean userLikeVideo = userService.isUserLikeVideo(loginUserId, videoId);
 
         // 发布者与视频VO
@@ -141,6 +141,23 @@ public class UserController extends BaseController {
         publisherVideoVo.setUserLikeVideo(userLikeVideo); // 设置用户是否给该视频点赞
 
         return JsonResult.ok(publisherVideoVo);
+    }
+
+    @ApiOperation(value = "关注用户", notes = "关注用户的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "fanId", value = "粉丝id", required = true, dataType = "String", paramType = "query")
+    })
+    @PostMapping(value = "/beYourFans")
+    public JsonResult beYourFans(String userId, String fanId) {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(fanId)) {
+            return JsonResult.errorMsg("userId和fanId不能为空");
+        }
+
+        // 保存用户与粉丝的关系
+        userService.saveUserFanRelation(userId, fanId);
+
+        return JsonResult.ok("关注成功");
     }
 
     @ApiOperation(value = "举报用户", notes = "举报用户的接口")

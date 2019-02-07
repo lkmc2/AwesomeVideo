@@ -15,4 +15,16 @@ public interface UserMapper extends MyMapper<User> {
      * @param userId 用户id
      */
     void reduceReceiveLikeCount(String userId);
+
+    /**
+     * 添加粉丝数
+     * @param userId 用户id
+     */
+    void addFansCount(String userId);
+
+    /**
+     * 添加关注人数
+     * @param userId 用户id
+     */
+    void addFollowersCount(String userId);
 }

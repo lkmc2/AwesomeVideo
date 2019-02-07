@@ -169,4 +169,22 @@ public class UserServiceImpl implements UserService {
         return !CollectionUtils.isEmpty(list);
     }
 
+    @Override
+    public void saveUserFanRelation(String userId, String fanId) {
+        String id = sid.nextShort();
+
+        UserFans userFans = new UserFans();
+        userFans.setId(id);
+        userFans.setUserId(userId);
+        userFans.setFanId(fanId);
+
+        // 保存用户与粉丝关系
+        userFansMapper.insert(userFans);
+
+        // 添加粉丝数
+        userMapper.addFansCount(userId);
+        // 添加关注人数
+        userMapper.addFollowersCount(fanId);
+    }
+
 }

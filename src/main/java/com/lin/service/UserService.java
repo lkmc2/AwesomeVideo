@@ -66,4 +66,11 @@ public interface UserService {
      * @return 用户是否被粉丝关注
      */
     boolean queryIfFollow(String userId, String fanId);
+
+    /**
+     * 增加用户和粉丝的关系
+     * @param userId 用户id
+     * @param fanId 粉丝id
+     */
+    void saveUserFanRelation(String userId, String fanId);
 }

@@ -29,4 +29,19 @@
     where id = #{videoCreatorId}
   </update>
 
+  <!--添加粉丝数-->
+  <update id="addFansCount" parameterType="string">
+    update users
+    set fans_counts = fans_counts + 1
+    where id = #{userId}
+  </update>
+
+  <!--添加关注人数-->
+  <update id="addFollowersCount">
+    update users
+    set follow_counts = fans_counts + 1
+    where id = #{userId}
+  </update>
+
+
 </mapper>
