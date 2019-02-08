@@ -194,4 +194,27 @@ public class VideoServiceImpl implements VideoService {
         return pagedResult;
     }
 
+    // 如果没有该事务，以非事务运行
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedResult queryMyFollowVideos(String userId, Integer page, int pageSize) {
+        // 使用插件进行分页
+        PageHelper.startPage(page, pageSize);
+
+        // 获取我关注的视频列表
+        List<VideoVo> list = videoMapperCustom.queryMyFollowVideos(userId);
+
+        // 创建分页信息
+        PageInfo<VideoVo> pageList = new PageInfo<>(list);
+
+        // 自定义分页结果
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setTotal(pageList.getPages()); // 总页数
+        pagedResult.setPage(page); // 当前页数
+        pagedResult.setRecords(pageList.getTotal()); // 总记录数
+        pagedResult.setRows(list); // 每行显示的内容
+
+        return pagedResult;
+    }
+
 }

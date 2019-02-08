@@ -66,4 +66,13 @@ public interface VideoService {
      * @return 分页结果
      */
     PagedResult getAllComments(String videoId, Integer page, Integer pageSize);
+
+    /**
+     * 获取我点赞过的视频列表
+     * @param userId 用户id
+     * @param page 当前页数
+     * @param pageSize 每页条数
+     * @return 分页结果
+     */
+    PagedResult queryMyFollowVideos(String userId, Integer page, int pageSize);
 }

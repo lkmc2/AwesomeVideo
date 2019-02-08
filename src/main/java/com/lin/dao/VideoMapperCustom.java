@@ -30,4 +30,11 @@ public interface VideoMapperCustom extends MyMapper<Video> {
      * @param videoId 视频id
      */
     void reduceVideoLikeCount(String videoId);
+
+    /**
+     * 获取用户点赞的视频列表
+     * @param userId 用户id
+     * @return 用户点赞的视频列表
+     */
+    List<VideoVo> queryMyFollowVideos(String userId);
 }

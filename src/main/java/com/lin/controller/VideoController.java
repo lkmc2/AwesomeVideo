@@ -151,15 +151,43 @@ public class VideoController extends BaseController {
     @ApiOperation(value = "分页和搜索查询视频列表", notes = "分页和搜索查询视频列表的接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "isSaveRecord", value = "是否保存记录", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "currentPage", value = "当前页数", dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "currentPage", value = "当前页数", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", dataType = "int", paramType = "query")
     })
     @PostMapping("/showAll")
-    public JsonResult showAll(@ApiParam(value = "视频对象") @RequestBody Video video, Integer isSaveRecord, Integer currentPage) {
+    public JsonResult showAll(@ApiParam(value = "视频对象") @RequestBody Video video,
+                              Integer isSaveRecord, Integer currentPage, Integer pageSize) {
         if (currentPage == null) {
             currentPage = 1;
         }
 
-        PagedResult result = videoService.getAllVideos(video, isSaveRecord, currentPage, PAGE_SIZE);
+        if (pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+
+        PagedResult result = videoService.getAllVideos(video, isSaveRecord, currentPage, pageSize);
+        return JsonResult.ok(result);
+    }
+
+    @ApiOperation(value = "我收藏(点赞)过的视频列表", notes = "我收藏(点赞)过的视频列表的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "当前页数", dataType = "int", paramType = "query")
+    })
+    @PostMapping("/showMyLike")
+    public JsonResult showMyLike(String userId, Integer page) {
+        if (StringUtils.isBlank(userId)) {
+            return JsonResult.errorMsg("用户id不能为空");
+        }
+
+        if (page == null) {
+            page = 1;
+        }
+
+        int pageSize = 6;
+
+        // 获取我点赞过的视频列表分页结果
+        PagedResult result = videoService.queryMyFollowVideos(userId, page, pageSize);
         return JsonResult.ok(result);
     }
 
