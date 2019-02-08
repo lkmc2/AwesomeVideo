@@ -39,7 +39,7 @@
     </select>
 
     <!--获取用户点赞的视频列表-->
-    <select id="queryMyFollowVideos" resultMap="BaseResultMap">
+    <select id="queryMyLikeVideos" resultMap="BaseResultMap">
         select v.*, u.face_image as face_image, u.nickname as nickname
         from videos v
             left join users u on v.user_id = u.id
@@ -47,6 +47,20 @@
             select ulv.video_id
             from users_like_videos ulv
             where ulv.user_id = #{userId}
+        )
+            and v.status = 1
+        order by v.create_time desc
+    </select>
+
+    <!--获取关注的人发的视频列表-->
+    <select id="queryMyFollowVideos" resultMap="BaseResultMap">
+        select v.*, u.face_image as face_image, u.nickname as nickname
+        from videos v
+            left join users u on v.user_id = u.id
+        where v.user_id in (
+            select uf.user_id
+            from users_fans uf
+            where uf.fan_id = #{userId}
         )
             and v.status = 1
         order by v.create_time desc

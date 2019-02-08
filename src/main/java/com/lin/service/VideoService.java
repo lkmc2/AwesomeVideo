@@ -74,5 +74,14 @@ public interface VideoService {
      * @param pageSize 每页条数
      * @return 分页结果
      */
+    PagedResult queryMyLikeVideos(String userId, Integer page, int pageSize);
+
+    /**
+     * 获取我关注的人发的视频
+     * @param userId 用户id
+     * @param page 当前页数
+     * @param pageSize 每页条数
+     * @return 分页结果
+     */
     PagedResult queryMyFollowVideos(String userId, Integer page, int pageSize);
 }

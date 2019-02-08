@@ -169,7 +169,7 @@ public class VideoController extends BaseController {
         return JsonResult.ok(result);
     }
 
-    @ApiOperation(value = "我收藏(点赞)过的视频列表", notes = "我收藏(点赞)过的视频列表的接口")
+    @ApiOperation(value = "获取我收藏(点赞)过的视频列表", notes = "我收藏(点赞)过的视频列表的接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "当前页数", dataType = "int", paramType = "query")
@@ -187,6 +187,28 @@ public class VideoController extends BaseController {
         int pageSize = 6;
 
         // 获取我点赞过的视频列表分页结果
+        PagedResult result = videoService.queryMyLikeVideos(userId, page, pageSize);
+        return JsonResult.ok(result);
+    }
+
+    @ApiOperation(value = "获取关注的人发的视频列表", notes = "获取关注的人发的视频列表的接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "当前页数", dataType = "int", paramType = "query")
+    })
+    @PostMapping("/showMyFollow")
+    public JsonResult showMyFollow(String userId, Integer page) {
+        if (StringUtils.isBlank(userId)) {
+            return JsonResult.errorMsg("用户id不能为空");
+        }
+
+        if (page == null) {
+            page = 1;
+        }
+
+        int pageSize = 6;
+
+        // 获取关注的人发的视频列表分页结果
         PagedResult result = videoService.queryMyFollowVideos(userId, page, pageSize);
         return JsonResult.ok(result);
     }
