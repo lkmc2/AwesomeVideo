@@ -13,6 +13,19 @@
 
 - 插件：Druid连接池、Mybatis Generator、通用Mapper、PageHelper分页插件、Lombok、Spring Boot Devtools热部署
 
+## 项目功能
++ 注册、登陆账号
+
++ 发布短视频，并添加背景乐
+
++ 浏览短视频
+
++ 收藏短视频
+
++ 评论、转发短视频
+
++ 关注用户
+
 ## 配套项目
 
   本**后端API服务**项目需要与以下两个项目配套使用。
