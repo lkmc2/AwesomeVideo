@@ -114,24 +114,24 @@ CREATE TABLE `search_records`  (
 -- ----------------------------
 -- Records of search_records
 -- ----------------------------
-INSERT INTO `search_records` VALUES ('1', '慕课网');
+INSERT INTO `search_records` VALUES ('1', '倾心网');
 INSERT INTO `search_records` VALUES ('18051309YBCMHYRP', '风景');
 INSERT INTO `search_records` VALUES ('1805130DAXX58ARP', '风景');
 INSERT INTO `search_records` VALUES ('1805130DMG6P0ZC0', '风景');
-INSERT INTO `search_records` VALUES ('1805130FNGHD3B0H', '慕课网');
+INSERT INTO `search_records` VALUES ('1805130FNGHD3B0H', '倾心网');
 INSERT INTO `search_records` VALUES ('180513C94W152Z7C', 'dwqdwq');
 INSERT INTO `search_records` VALUES ('180513DXNT7SY04H', '风景');
 INSERT INTO `search_records` VALUES ('190208938ZBZX0BC', '风景');
 INSERT INTO `search_records` VALUES ('19020893SSCD5KP0', '风景');
 INSERT INTO `search_records` VALUES ('19020894S5PXHF14', '风景');
-INSERT INTO `search_records` VALUES ('19020894YTS49AFW', '慕课网');
+INSERT INTO `search_records` VALUES ('19020894YTS49AFW', '倾心网');
 INSERT INTO `search_records` VALUES ('1902089508Z0C280', 'zookeeper');
 INSERT INTO `search_records` VALUES ('1902089529RCNN54', '风景');
-INSERT INTO `search_records` VALUES ('2', '慕课网');
-INSERT INTO `search_records` VALUES ('3', '慕课网');
-INSERT INTO `search_records` VALUES ('4', '慕课网');
-INSERT INTO `search_records` VALUES ('5', '慕课');
-INSERT INTO `search_records` VALUES ('6', '慕课');
+INSERT INTO `search_records` VALUES ('2', '倾心网');
+INSERT INTO `search_records` VALUES ('3', '倾心网');
+INSERT INTO `search_records` VALUES ('4', '倾心网');
+INSERT INTO `search_records` VALUES ('5', '倾心');
+INSERT INTO `search_records` VALUES ('6', '倾心');
 INSERT INTO `search_records` VALUES ('7', 'zookeeper');
 INSERT INTO `search_records` VALUES ('8', 'zookeeper');
 INSERT INTO `search_records` VALUES ('9', 'zookeeper');
@@ -157,10 +157,10 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1001', 'test-imooc-1111', '9999', '/path000999', '慕课网好牛十分牛~', 123456, 111, 222);
-INSERT INTO `users` VALUES ('180425B0B3N6B25P', 'imooc11', 'wzNncBURtPYCDsYd7TUgWQ==', NULL, 'imooc', 0, 0, 0);
+INSERT INTO `users` VALUES ('1001', 'test-test-1111', '9999', '/path000999', '倾心网好牛十分牛~', 123456, 111, 222);
+INSERT INTO `users` VALUES ('180425B0B3N6B25P', 'test11', 'wzNncBURtPYCDsYd7TUgWQ==', NULL, 'test', 0, 0, 0);
 INSERT INTO `users` VALUES ('180425BNSR1CG0H0', 'abc', '4QrcOUm6Wau+VuBX8g+IPg==', NULL, 'abc', 1, 0, 1);
-INSERT INTO `users` VALUES ('180425CFA4RB6T0H', 'imooc', 'kU8h64TG/bK2Y91vRT9lyg==', '/180425CFA4RB6T0H/face/wxa2049f5aead89372.o6zAJs5sm5bPFcTzKXp_5wXsWuso.W0eLNdT6MIvD3ba01f74ba779caa63d038c3c8200b4a.jpg', 'imooc1', 0, 2, 6);
+INSERT INTO `users` VALUES ('180425CFA4RB6T0H', 'test', 'kU8h64TG/bK2Y91vRT9lyg==', '/180425CFA4RB6T0H/face/wxa2049f5aead89372.o6zAJs5sm5bPFcTzKXp_5wXsWuso.W0eLNdT6MIvD3ba01f74ba779caa63d038c3c8200b4a.jpg', 'test1', 0, 2, 6);
 INSERT INTO `users` VALUES ('180426F4D35R04X4', 'aaa', 'R7zlx09Yn0hn29V+nKn4CA==', NULL, 'aaa', 0, 0, 0);
 INSERT INTO `users` VALUES ('180426F55CZPA9YW', 'aaaa', 'R7zlx09Yn0hn29V+nKn4CA==', NULL, 'aaaa', 0, 0, 0);
 INSERT INTO `users` VALUES ('180426GA3SBB4DP0', '1001', 'bfw1xHdW6WLvBV0QSfH47A==', NULL, '1001', 0, 0, 0);
