@@ -3,9 +3,10 @@ package com.lin.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
-public class Bgm {
+public class Bgm implements Serializable {
     @Id
     private String id;
     private String author;

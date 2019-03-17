@@ -3,10 +3,11 @@ package com.lin.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Table(name = "users_like_videos")
-public class UserLikeVideos {
+public class UserLikeVideos implements Serializable {
     @Id
     private String id;
 

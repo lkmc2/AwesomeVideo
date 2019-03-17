@@ -5,6 +5,8 @@ import com.lin.model.Bgm;
 import com.lin.model.User;
 import com.lin.service.BgmService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -16,17 +18,20 @@ import java.util.List;
  * @description 背景乐服务实现
  */
 @Service
+@CacheConfig(cacheNames = {"BgmServiceImpl"})
 public class BgmServiceImpl implements BgmService {
 
     @Autowired
     private BgmMapper bgmMapper;
 
     @Override
+    @Cacheable(key = "targetClass + methodName")
     public List<Bgm> queryBgmList() {
         return bgmMapper.selectAll();
     }
 
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0")
     public Bgm queryBgmById(String bgmId) {
         // 创建背景音乐查询实例
         Example bgmExample = new Example(Bgm.class);

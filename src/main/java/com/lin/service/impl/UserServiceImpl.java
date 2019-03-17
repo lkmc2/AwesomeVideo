@@ -13,6 +13,9 @@ import com.lin.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,7 @@ import java.util.List;
  * @description 用户服务实现
  */
 @Service
+@CacheConfig(cacheNames = {"UserServiceImpl"})
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -48,6 +52,7 @@ public class UserServiceImpl implements UserService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0")
     public boolean queryUsernameIsExist(String username) {
         User user = new User();
         user.setUsername(username);
@@ -61,6 +66,8 @@ public class UserServiceImpl implements UserService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public boolean saveUser(User user) {
         // 创建下一个id
         String userId = sid.nextShort();
@@ -75,6 +82,7 @@ public class UserServiceImpl implements UserService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0 + #p1")
     public User queryUserForLogin(String username, String password) {
         // 创建用户查询实例
         Example userExample = new Example(User.class);
@@ -92,6 +100,8 @@ public class UserServiceImpl implements UserService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public void updateUserInfo(User user) {
         // 创建用户查询实例
         Example userExample = new Example(User.class);
@@ -108,6 +118,7 @@ public class UserServiceImpl implements UserService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0")
     public User queryUserInfo(String userId) {
         // 创建用户查询实例
         Example userExample = new Example(User.class);
@@ -124,6 +135,7 @@ public class UserServiceImpl implements UserService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0 + #p1")
     public boolean isUserLikeVideo(String userId, String videoId) {
         if (StringUtils.isBlank(userId) || StringUtils.isBlank(videoId)) {
             return false;
@@ -145,6 +157,8 @@ public class UserServiceImpl implements UserService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public void reportUser(UserReport userReport) {
         String reportId = sid.nextShort();
         userReport.setId(reportId);
@@ -157,6 +171,7 @@ public class UserServiceImpl implements UserService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0 + #p1")
     public boolean queryIfFollow(String userId, String fanId) {
         // 创建查询对象
         Example example = new Example(UserFans.class);
@@ -176,6 +191,8 @@ public class UserServiceImpl implements UserService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public void saveUserFanRelation(String userId, String fanId) {
         String id = sid.nextShort();
 
@@ -196,6 +213,8 @@ public class UserServiceImpl implements UserService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public void deleteUserFanRelation(String userId, String fanId) {
         // 创建查询条件
         Example example = new Example(UserFans.class);

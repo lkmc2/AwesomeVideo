@@ -14,6 +14,9 @@ import com.lin.utils.PagedResult;
 import com.lin.utils.TimeAgoUtils;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,7 @@ import java.util.List;
  * @description 视频服务实现
  */
 @Service
+@CacheConfig(cacheNames = {"VideoServiceImpl"})
 public class VideoServiceImpl implements VideoService {
 
     @Autowired
@@ -57,6 +61,8 @@ public class VideoServiceImpl implements VideoService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public String saveVideo(Video video) {
         String id = sid.nextShort();
         video.setId(id);
@@ -69,6 +75,8 @@ public class VideoServiceImpl implements VideoService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public PagedResult getAllVideos(Video video, Integer isSaveRecord, Integer currentPage, Integer pageSize) {
         // 获取视频描述
         String desc = video.getVideoDesc();
@@ -106,6 +114,7 @@ public class VideoServiceImpl implements VideoService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName")
     public List<String> getHotWords() {
         return searchRecordsMapper.getHotWords();
     }
@@ -113,6 +122,8 @@ public class VideoServiceImpl implements VideoService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public void userLikeVideo(String userId, String videoId, String videoCreatorId) {
         // 1.保存用户和视频的喜欢点赞关联关系表
         String likeId = sid.nextShort();
@@ -135,6 +146,8 @@ public class VideoServiceImpl implements VideoService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public void userUnlikeVideo(String userId, String videoId, String videoCreatorId) {
         // 1.删除用户和视频的喜欢点赞关联关系表
         Example example = new Example(UserLikeVideos.class);
@@ -156,6 +169,8 @@ public class VideoServiceImpl implements VideoService {
     // 运行当前事务，如果当前没有事务，就新建一个事务
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    // 方法执行后清空所有缓存
+    @CacheEvict(allEntries = true)
     public void saveComment(Comment comment) {
         String id = sid.nextShort();
         comment.setId(id);
@@ -168,6 +183,7 @@ public class VideoServiceImpl implements VideoService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0 + #p1 + #p3")
     public PagedResult getAllComments(String videoId, Integer page, Integer pageSize) {
         // 分页插件进行分页
         PageHelper.startPage(page, pageSize);
@@ -197,6 +213,7 @@ public class VideoServiceImpl implements VideoService {
     // 如果没有该事务，以非事务运行
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0 + #p1 + #p2")
     public PagedResult queryMyLikeVideos(String userId, Integer page, int pageSize) {
         // 使用插件进行分页
         PageHelper.startPage(page, pageSize);
@@ -218,6 +235,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0 + #p1 + #p2")
     public PagedResult queryMyFollowVideos(String userId, Integer page, int pageSize) {
         // 使用插件进行分页
         PageHelper.startPage(page, pageSize);

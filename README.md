@@ -9,6 +9,8 @@
 
 - API文档：Swagger2
 
+- 缓存：Spring Cache
+
 - 插件：Druid连接池、Mybatis Generator、通用Mapper、PageHelper分页插件、Lombok、Spring Boot Devtools热部署
 
 ## 配套项目

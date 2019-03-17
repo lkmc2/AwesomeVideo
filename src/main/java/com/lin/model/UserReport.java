@@ -5,12 +5,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @ApiModel(value = "用户举报对象", description = "这是用户举报对象")
 @Table(name = "users_report")
-public class UserReport {
+public class UserReport implements Serializable {
     @ApiModelProperty(hidden = true)
     @Id
     private String id;

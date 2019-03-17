@@ -4,13 +4,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
 @Data
 @ApiModel(value = "评论对象", description = "这是评论对象")
 @Table(name = "comments")
-public class Comment {
+public class Comment implements Serializable {
     @ApiModelProperty(value = "评论Id", name = "videoId", example = "1902057AAGAS0000", required = true)
     @Id
     private String id;
