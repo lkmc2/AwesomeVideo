@@ -14,4 +14,4 @@ Spring Boot编写的倾心短视频小程序的后端
 2. 在数据库中运行src/main/resources下的awesome_video.sql文件。
 3. 修改src/main/resources的application.properties配置文件中的的数据库用户名和密码。
 4. 运行AwesomeVideoApplication.java启动项目。
-5. 浏览器中打开http://localhost:8080/swagger-ui.html，可访问到项目的API文档。
+5. 浏览器中打开http://localhost:8080/swagger-ui.html ，可访问到项目的API文档。
